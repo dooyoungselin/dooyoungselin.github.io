@@ -123,9 +123,12 @@
     });
   }
 
-  // Keep the manifest's order while grouping photos into five-image collage panels.
+  // Keep the manifest's order while grouping photos into ten three-image scenes.
   const itemsHost = $('#gallery-items');
   const galleryStatus = $('#gallery-status');
+  const gallerySection = $('.photo-gallery');
+  gallerySection.setAttribute('aria-busy', 'true');
+  galleryStatus.textContent = '사진을 불러오고 있어요.';
   const dialog = $('#photo-dialog');
   const dialogImage = $('#dialog-image');
   const dialogCount = $('#dialog-count');
@@ -136,7 +139,7 @@
   function setGalleryIndex(index) {
     if (!gallery.length) return;
     activeIndex = Math.max(0, Math.min(gallery.length - 1, index));
-    $$('.gallery-thumb', itemsHost).forEach((button, i) => {
+    $$('.gallery-photo-button', itemsHost).forEach((button, i) => {
       if (i === activeIndex) button.setAttribute('aria-current', 'true');
       else button.removeAttribute('aria-current');
     });
@@ -193,48 +196,70 @@
     gallery = records.filter((item) => item && typeof item.src === 'string' && typeof item.thumb === 'string');
     if (!gallery.length) throw new Error('The gallery manifest contains no usable images.');
     const fragment = document.createDocumentFragment();
-    const panels = [];
+    const scenes = [];
+    const sceneCount = Math.ceil(gallery.length / 3);
     gallery.forEach((item, index) => {
-      const panelIndex = Math.floor(index / 5);
-      const panelLeadIndex = panelIndex * 5;
-      let panel = panels[panelIndex];
-      if (!panel) {
-        panel = document.createElement('div');
-        const panelPhoto = gallery[panelLeadIndex];
-        const panelLayout = Number(panelPhoto.width) > Number(panelPhoto.height)
-          ? 'wide'
-          : (panelIndex % 2 === 0 ? 'portrait-left' : 'portrait-right');
-        panel.className = `gallery-panel gallery-panel--${panelLayout}`;
-        panel.setAttribute('role', 'group');
-        panel.setAttribute('aria-label', `사진 ${panelLeadIndex + 1}–${Math.min(panelLeadIndex + 5, gallery.length)}`);
-        panels[panelIndex] = panel;
-        fragment.append(panel);
+      const sceneIndex = Math.floor(index / 3);
+      const sceneLeadIndex = sceneIndex * 3;
+      let scene = scenes[sceneIndex];
+      if (!scene) {
+        scene = document.createElement('section');
+        const leadPhoto = gallery[sceneLeadIndex];
+        const isLandscape = Number(leadPhoto.width) > Number(leadPhoto.height);
+        scene.className = `gallery-scene ${isLandscape ? 'gallery-scene--landscape' : `gallery-scene--${sceneIndex % 2 === 0 ? 'left' : 'right'}`}`;
+        scene.setAttribute('aria-labelledby', `gallery-scene-heading-${sceneIndex + 1}`);
+
+        const header = document.createElement('div');
+        header.className = 'gallery-scene-header';
+        const heading = document.createElement('h2');
+        heading.className = 'gallery-scene-title';
+        heading.id = `gallery-scene-heading-${sceneIndex + 1}`;
+        heading.textContent = '함께한 순간';
+        const count = document.createElement('p');
+        count.className = 'gallery-scene-count';
+        count.textContent = `${String(sceneIndex + 1).padStart(2, '0')}/${String(sceneCount).padStart(2, '0')}`;
+        count.setAttribute('aria-label', `사진 장면 ${sceneIndex + 1}, 전체 ${sceneCount}`);
+        header.append(heading, count);
+
+        const layout = document.createElement('div');
+        layout.className = 'gallery-layout';
+        const hint = document.createElement('p');
+        hint.className = 'gallery-hint';
+        hint.textContent = '사진을 누르면 크게 볼 수 있어요.';
+        scene.append(header, layout, hint);
+        scenes[sceneIndex] = scene;
+        fragment.append(scene);
       }
+      const layout = $('.gallery-layout', scene);
       const button = document.createElement('button');
-      button.className = `gallery-thumb${index === panelLeadIndex ? ' gallery-thumb--lead' : ''}`;
+      const isLead = index === sceneLeadIndex;
+      button.className = `gallery-photo-button${isLead ? ' gallery-photo-button--lead' : ''}`;
       button.type = 'button';
       button.dataset.index = String(index);
       button.setAttribute('aria-label', `사진 ${index + 1}: ${item.alt || '웨딩 사진'} 크게 보기`);
       const image = document.createElement('img');
-      image.src = item.thumb;
       const fullWidth = Number(item.width) || 1067;
       const fullHeight = Number(item.height) || 1600;
       const thumbWidth = fullWidth > fullHeight ? 440 : Math.round(fullWidth * 440 / fullHeight);
       image.srcset = `${item.thumb} ${thumbWidth}w, ${item.src} ${fullWidth}w`;
-      image.sizes = index === panelLeadIndex
-        ? '(max-width: 600px) calc(100vw - 48px), 400px'
-        : '(max-width: 600px) calc((100vw - 56px) / 2), 196px';
+      image.sizes = isLead && Number(item.width) > Number(item.height)
+        ? '(max-width: 600px) calc(100vw - 32px), 400px'
+        : isLead
+          ? '(max-width: 600px) 60vw, 240px'
+          : '(max-width: 600px) 40vw, 144px';
       image.alt = '';
       image.loading = 'lazy';
       image.decoding = 'async';
       image.width = fullWidth;
       image.height = fullHeight;
+      image.src = item.thumb;
       button.append(image);
       button.addEventListener('click', () => openPhoto(index, button));
-      panel.append(button);
+      layout.append(button);
     });
     itemsHost.replaceChildren(fragment);
     galleryStatus.hidden = true;
+    gallerySection.setAttribute('aria-busy', 'false');
     setGalleryIndex(0);
   }
 
@@ -245,8 +270,9 @@
     })
     .then(renderGallery)
     .catch(() => {
-      galleryStatus.textContent = '사진을 불러오지 못했어요. 잠시 후 다시 열어 주세요.';
+      galleryStatus.textContent = '사진을 불러오지 못했어요. 새로고침해 주세요.';
       itemsHost.replaceChildren();
+      gallerySection.setAttribute('aria-busy', 'false');
     });
 
   $('#dialog-previous').addEventListener('click', () => moveDialog(-1));

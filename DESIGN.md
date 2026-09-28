@@ -39,9 +39,9 @@ Once images are ready, hold the drawing around 1.4 seconds and dissolve to the p
 
 ## Mobile navigation and photographs
 
-- Use native vertical proximity scroll snapping at section and gallery-panel starts on mobile. Preserve normal scrolling through long sections and forms; do not intercept wheel/touch gestures or use mandatory snapping.
+- Mobile navigation is a vertical sequence of viewport-sized scenes, not a list of small snapping cards. Use native mandatory snapping only at the large scene starts, with normal momentum and no forced stop at every crossed scene. Do not intercept wheel/touch gestures. Long form sections may grow beyond the viewport and must remain fully readable; suspend snapping during text/select input and modal viewing. Reduced-motion preferences disable snapping.
 - Place the scroll cue in a small separate row below the cover frame, away from its bottom line and corner hearts.
-- Arrange all 30 photos in varied-size panel grids with consistent gaps and manifest reading order. Individual photos open a viewer; there is no horizontal thumbnail carousel.
+- Show all 30 photographs in 10 album scenes with three photographs per scene and manifest reading order. Vary image widths and placement to create an asymmetrical composition. Preserve the entire original image at its natural aspect ratio: no cover fitting, clipped frames, focal-point crops, or rounded clipping. Scale the whole composition to fit small mobile screens. A landscape lead gets its own full-width row. Individual photos open the existing viewer.
 - The viewer uses the available dynamic viewport height. Its close X, counter and previous/next controls stay visible while the image fits the remaining space. Account for safe areas, short landscape screens and focus restoration.
 
 ## Applied research and boundaries
