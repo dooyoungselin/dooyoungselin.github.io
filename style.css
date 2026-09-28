@@ -199,6 +199,7 @@ body.dialog-open { overflow: hidden; }
 .transport-row--shuttle h3 { margin-bottom: var(--space-1); }
 .transport-row .transport-route { color: var(--blue); }
 .transport-route span { color: var(--ink); }
+.transport-row .transport-route + .transport-route { margin-top: var(--space-2); }
 .transport-row .transport-note { display: block; margin-top: var(--space-1); color: var(--muted); font-size: 13px; line-height: 1.6; }
 .official-directions { margin: var(--space-4) 0 0; text-align: center; }
 .official-directions a { min-height: 44px; display: inline-flex; align-items: center; gap: var(--space-1); color: var(--muted); font-size: 13px; line-height: 1.5; text-decoration: underline; text-underline-offset: 3px; }

@@ -26,7 +26,7 @@ Google Sheets 응답 저장과 방명록 공개/관리, 승인된 음악 파일 
 패키지 설치나 빌드 없이 `python3 -m http.server 8765 --bind 127.0.0.1`로 확인합니다.
 
 - `index.html`, `style.css`, `app.js`: 화면과 동작
-- `venue-map-v2.png` (1254×1254): 위치와 참고용 도보 거리·시간을 표시한 손그림 약도이며 원본 비율 그대로 표시합니다.
+- `venue-map-v3.png` (1086×1448): 위치와 참고용 도보 거리·시간, 셔틀 왕복 시간을 표시한 손그림 약도이며 원본 비율 그대로 표시합니다.
 - `index.html`의 숨겨진 `#background-music`: 음원 미연결 상태로 제공됩니다. 승인된 파일이 준비되면 해당 오디오 요소에 `src`를 지정하거나 `<source src="…">`를 추가하세요. 자동 재생은 하지 않습니다.
 - `gallery-manifest.json`, `assets/gallery/`: 최적화 사진과 썸네일
 - `assets/couple-original-cutout.svg`: 원본 Main 사진의 웹용 축소본을 그대로 포함하고 윤곽 마스크만 적용한 이미지. 인물 재생성·보정 없음
