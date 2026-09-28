@@ -1,44 +1,38 @@
 # Dooyoung & Selin
 
-모바일 청첩장의 기본 사이트입니다. 현재는 준비 중 안내만 표시합니다.
+블루 드로잉 모바일 청첩장의 현재 디자인 버전입니다.
 
-- 대표 주소: https://dooyoungselin.com/
-- 저장소: https://github.com/dooyoungselin/dooyoungselin.github.io
-- 호스팅: GitHub Pages, `main` 브랜치의 `/ (root)`
-- 도메인 및 DNS 관리: Spaceship
-- 별도 패키지 설치나 빌드 없이 HTML을 그대로 배포합니다.
+- 사이트: https://dooyoungselin.com/
+- 예식: 2027년 2월 13일 토요일 13:30, 대전 씨엘드레브 르자르뎅홀
+- 호스팅: GitHub Pages, `main` 브랜치의 저장소 루트
+- 도메인 및 DNS: Spaceship
 
-## 파일
+## 현재 기능
 
-- `index.html`: 모바일 대응 준비 중 페이지
-- `.nojekyll`: Jekyll 처리 없이 정적 파일 배포
-- `CNAME`: GitHub Pages에서 Custom domain을 저장할 때 생성하는 도메인 설정
+- 휴대폰 화면에 맞춘 표지, 손그림에서 원본 사진 오리기로 이어지는 전환
+- Delius 영문과 고운돋움 한글, 일관된 간격·색상·입력창
+- 30장 사진 갤러리, 확대 보기, 이전/다음 및 키보드 조작
+- 공식 예식장 안내를 바탕으로 한 주소·교통·지도 링크
+- RSVP와 방명록 입력 **미리보기**: 전송하거나 저장하지 않음
+- 배경음악은 준비 중, 자동 재생하지 않음
 
-`main`에 변경 사항을 올리면 GitHub Pages가 자동 배포합니다.
-처음 연결할 때 저장소 Settings → Pages에서 배포 브랜치를 선택합니다.
+Google Sheets 응답 저장과 방명록 공개/관리, 음악 연결은 추후 구현합니다. 현재 검색 제외(`noindex,nofollow`)를 유지합니다. 검색 제외는 접근 제한이 아니며 사이트와 저장소는 공개입니다.
 
-## DNS 목표값
+## 개발
 
-| 유형 | 호스트 | 값 |
-| --- | --- | --- |
-| A | @ | 185.199.108.153 |
-| A | @ | 185.199.109.153 |
-| A | @ | 185.199.110.153 |
-| A | @ | 185.199.111.153 |
-| CNAME | www | dooyoungselin.github.io |
-| TXT | _github-pages-challenge-dooyoungselin | GitHub 계정 Settings → Pages에서 발급한 값 |
+패키지 설치나 빌드 없이 `python3 -m http.server 8765 --bind 127.0.0.1`로 확인합니다.
 
-Custom domain은 `dooyoungselin.com`으로 설정합니다. DNS 확인과 인증서 발급이 완료되면 Enforce HTTPS를 켭니다.
-GitHub의 도메인 소유권 확인에 사용한 TXT 레코드는 유지합니다.
+- `index.html`, `style.css`, `app.js`: 화면과 동작
+- `gallery-manifest.json`, `assets/gallery/`: 최적화 사진과 썸네일
+- `assets/couple-original-cutout.svg`: 원본 Main 사진의 웹용 축소본을 그대로 포함하고 윤곽 마스크만 적용한 이미지. 인물 재생성·보정 없음
+- `AGENTS.md`, `DESIGN.md`: 구현·디자인 규칙
+- `CNAME`, `.nojekyll`: 기존 Pages 도메인/정적 배포 설정
+- `?review=1`: 글꼴 및 그림/사진 정렬 검토 화면
 
-## 운영 메모
+원본 고해상도 사진, 생성형 편집으로 만들었다가 제외한 이미지, 개인 응답과 인증 정보는 배포하지 않습니다. `artifacts/`는 로컬 작업 기록으로 Git에서 제외합니다.
 
-GitHub Free의 Pages는 공개 저장소를 사용합니다. 이 저장소의 파일과 커밋 기록은 공개됩니다.
-현재 페이지의 `noindex`는 검색 제외 요청이며 접근 제한이나 비밀번호 보호가 아닙니다.
-향후 RSVP 응답은 이 저장소에 저장하지 않고 별도 폼/백엔드에서 처리합니다.
+## 배포
 
-## 공식 문서
+`main`에 변경 사항을 올리면 GitHub Pages가 배포합니다. 배포 후 실제 도메인에서 표지 전환과 갤러리를 확인합니다. RSVP·방명록을 연결하기 전에는 저장 성공 표시를 만들지 않습니다.
 
-- [GitHub Pages 생성](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
-- [Custom domain 연결](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
-- [도메인 소유권 확인](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages)
+DNS는 apex에 GitHub Pages A 레코드 4개(`185.199.108.153`~`185.199.111.153`), `www`에 `dooyoungselin.github.io` CNAME을 사용합니다. GitHub 도메인 소유권 확인 TXT를 유지하고 HTTPS를 사용합니다.
