@@ -24,7 +24,7 @@ Font research: [Delius](https://github.com/google/fonts/tree/main/ofl/delius), [
 - Use semantic CSS variables for reusable colors, font roles, spaces, radii, and durations.
 - Spacing steps: 4, 8, 12, 16, 24, 32, 48, 64, 80px. Related information is close; sections have larger breathing room.
 - Invitation column: maximum 480px; gutter 24px on phones, up to 40px on wider screens. Desktop surrounds the column with the same white background. The cover frame sits closer to the viewport edges than the body gutter.
-- Hero: one small-viewport height when content fits, flexible enough to remain readable on short screens. Group headline, portrait, names, date, and venue. No scroll lock.
+- Hero: budget one stable small-viewport height, including safe-area-aware outer top and bottom whitespace of about 24px. Keep the headline clear of the music control; let the portrait shrink at its natural aspect ratio so names, date, venue, and cue fit when possible. Very short screens may grow to keep reading clear. No scroll lock.
 - Main reading order: couple → invitation → photographs → date/location → RSVP → guestbook.
 - The hero frame uses the user's supplied transparent PNG `invitation-frame-v1.png`. Preserve the source bytes and corner-heart shapes while fitting the surrounding lines to the viewport. Avoid repetitive dashboard cards, decorative gradients, large shadow panels, and unrelated themes.
 - Controls: one cobalt primary and one outlined secondary style; consistent 10px radius; 48px preferred target, 44px minimum. Visible focus and labels.
@@ -39,17 +39,17 @@ Once images are ready, hold the drawing around 1.4 seconds and dissolve to the p
 
 ## Mobile navigation and photographs
 
-- Mobile navigation is a vertical sequence of viewport-sized scenes, not a list of small snapping cards. Use native mandatory snapping only at the large scene starts, with normal momentum and no forced stop at every crossed scene. Do not intercept wheel/touch gestures. Long form sections may grow beyond the viewport and must remain fully readable; suspend snapping during text/select input and modal viewing. Reduced-motion preferences disable snapping.
+- Mobile content follows natural height with about 32px above and below each reading section; gallery scenes use 24px. Keep photo groups together, and use native proximity snapping at scene starts so users can move through them with ordinary scroll momentum. Do not intercept wheel/touch gestures; suspend snapping during text/select input and modal viewing. Reduced-motion preferences disable snapping.
 - Place the scroll cue in a small separate row below the cover frame, away from its bottom line and corner hearts.
 - Show all 30 photographs in 10 album scenes with three photographs per scene and manifest reading order. Vary image widths and placement to create an asymmetrical composition. Preserve the entire original image at its natural aspect ratio: no cover fitting, clipped frames, focal-point crops, or rounded clipping. Scale the whole composition to fit small mobile screens. A landscape lead gets its own full-width row. Individual photos open the existing viewer.
 - The viewer uses the available dynamic viewport height. Its close X, counter and previous/next controls stay visible while the image fits the remaining space. Account for safe areas, short landscape screens and focus restoration.
 
 ## Directions
 
-- Keep the event date, time, and hall in a short centered summary, followed by a separate `#location` scene.
-- Use the supplied hand-drawn `venue-map-v3.png` (1086×1448) at full width and its natural aspect ratio. Keep it lazy-loaded and uncropped; do not substitute map tiles. Explain that it is a location guide and ask guests to check the route in a map app.
-- Keep the venue address readable with an explicit copy control, then show equal Kakao Map and Naver Map links and uncluttered subway, bus, taxi/car, shuttle, and parking rows with cobalt line icons. The confirmed shuttle leaves Daejeon Station on the hour and the venue at half past; boarding place and first/last departures are pending.
-- Let the location scene grow past the viewport when needed. Keep 16px transit copy, clear separators, mobile wrapping, and native scroll behavior; do not force a gesture or hide overflow.
+- Keep the event date, time, and hall in a short centered summary, followed by a separate `#location` map scene.
+- Use the supplied hand-drawn `venue-map-v3.png` (1086×1448) at its natural aspect ratio. Keep it lazy-loaded and uncropped; do not substitute map tiles. On phones, fit the title, full image, short caption, and equal Kakao Map and Naver Map links in one small-viewport scene.
+- Put the venue address and explicit copy control in the following `#transport` scene, with content near its top and a small-viewport minimum height. Keep the shuttle times visible: Daejeon Station departures are on the hour and venue departures are at half past; boarding place and first/last departures are pending. Show subway, bus, taxi/car, and parking as native collapsed disclosures with cobalt line icons. Keep 16px detail copy and allow very short screens or expanded details to grow naturally.
+- Explain that the map is a location guide and ask guests to confirm the route in a map app. Preserve native scrolling and never hide overflow.
 - The address copy control reports success only after the clipboard promise resolves. On unsupported or failed copy, say `주소를 길게 눌러 복사해 주세요.` and leave focus in place.
 
 ## Applied research and boundaries
