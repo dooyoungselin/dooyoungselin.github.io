@@ -2,21 +2,22 @@
 
 ## Direction
 
-A personal paper invitation: white space, cobalt ink, small imperfect hearts, and the couple as the visual focus. Cute through rounded letterforms and drawing details; calm through consistent grouping. The user selected Blue Drawing and rejected the initial mixed heavy handwritten fonts. Preserve the supplied reference's character.
+A personal paper invitation: white space, cobalt ink, small imperfect hearts, and the couple as the visual focus. Cute through rounded letterforms and drawing details; calm through consistent grouping. The user selected Blue Drawing and supplied handwritten PNG crops for the cover lettering. Preserve their original aspect ratios and the supplied reference's character.
 
 ## Typography
 
 | Role | Family | Size / leading | Treatment |
 | --- | --- | --- | --- |
-| English cover / names | Delius | 28–36px / 1.15 | Regular, natural rounded strokes; no faux bold or italic |
+| English cover title, names, date, venue | Supplied transparent PNG crops | Responsive, natural aspect ratio | Keep matching visually hidden text for accessible reading |
+| Other English text | Delius | Per component role | Regular, natural rounded strokes; no faux bold or italic |
 | Korean section title | Gowun Dodum | 24–28px / 1.45 | Regular; create hierarchy with space and scale |
 | Invitation prose | Gowun Dodum | 16px / 1.85 | Centered short paragraphs, keep Korean words together |
 | Form control / button | Gowun Dodum | 16px / 1.5 | Same treatment in RSVP and guestbook |
 | Supporting detail | Gowun Dodum | 13–14px / 1.6 | Readable contrast; never compress important addresses/dates |
 
-Only these two families appear in the invitation. English display type carries personality; Korean carries reading and input. Use `font-synthesis: none`. System sans fallbacks keep content visible if fonts fail. Do not reuse Kalam, Caveat, Marker Felt, Comic Sans, or assorted script treatments.
+Outside the cover crops, Delius remains for English and Gowun Dodum for Korean reading and input. Use `font-synthesis: none`. System sans fallbacks keep text visible if fonts fail.
 
-Font research: [Delius](https://github.com/google/fonts/tree/main/ofl/delius), [Gowun Dodum](https://github.com/google/fonts/tree/main/ofl/gowundodum), and [Jua](https://github.com/google/fonts/tree/main/ofl/jua). Delius + Gowun Dodum is the selected pair. Jua is a cuter/heavier alternative and does not join the production font set.
+Font research: [Delius](https://github.com/google/fonts/tree/main/ofl/delius) and [Gowun Dodum](https://github.com/google/fonts/tree/main/ofl/gowundodum) remain the selected font pair for text outside the cover crops.
 
 ## Color and composition
 
@@ -31,11 +32,11 @@ Font research: [Delius](https://github.com/google/fonts/tree/main/ofl/delius), [
 
 ## Portrait and movement
 
-Use `assets/couple-original-cutout.svg`: it embeds the original Main-derived JPEG and clips it with a hand-traced vector outline. No generated or retouched portrait is allowed. A separate cream stroke and subtle CSS shadow supply the cut-paper effect. The source photograph remains unchanged; web scaling is allowed.
+Use the user-provided transparent portrait at `assets/couple-user-cutout-v2.png`, proportionally reduced to a 1400px maximum dimension for the web. Keep the original photograph untouched; do not regenerate, retouch, reshape, or add a new mask. A subtle CSS shadow may supply the cut-paper depth.
 
-Prioritize matching the head centers and foot baseline of the illustration and photograph. Cartoon anatomy cannot match every point of the photograph without distortion; keep natural proportions and use optical alignment rather than warping faces or bodies.
+Prioritize matching the head centers and foot baseline of the illustration and photograph. Cartoon anatomy cannot match every point of the photograph without distortion; keep natural proportions and use optical alignment rather than warping faces or bodies. Shift the portrait stage 8% right to balance the dress's visual weight, while keeping the sprinkles centered on the hero. The photo remains at a uniform 1 CSS scale with zero image offset; keep the scale isotropic.
 
-Once images are ready, hold the drawing around 1.4 seconds and dissolve to the photographic cutout around 0.9 seconds. A brief cobalt/light-blue burst of small lines, dots and hearts may appear around the portrait edges once as the photo arrives, without covering faces. Keep all text stable. With reduced motion, show a static photograph and no particles. A failed image keeps the drawing visible. No public replay button. The music control is a 44px accessible button with a diagonal slash while stopped and a note while audio is actually audible. It must not autoplay or claim playback when muted, silent, paused, or missing a source. The hidden `#background-music` element intentionally has no source until an approved track is selected; wire it by adding that track's `src` or a `<source src="…">` child. With no source, activating the button only shows a brief preparation notice.
+Once images are ready, hold the drawing around 1.4 seconds and dissolve to the photographic cutout around 0.9 seconds. Clicking or tapping the portrait, or focusing it and pressing Enter or Space, toggles between illustration and photo; manual input cancels any pending automatic transition. A brief cobalt/light-blue burst of small lines, dots and hearts may appear around the portrait's outer sides and bottom corners on each actual switch, without covering faces. Keep all text stable. With reduced motion, start with a static photograph and no particles; explicit toggles remain available and switch instantly without particles. A failed image keeps the drawing visible. The portrait itself is the public toggle, with no separate replay button. The music control is a 44px accessible button with a diagonal slash while stopped and a note while audio is actually audible. It must not autoplay or claim playback when muted, silent, paused, or missing a source. The hidden `#background-music` element intentionally has no source until an approved track is selected; wire it by adding that track's `src` or a `<source src="…">` child. With no source, activating the button only shows a brief preparation notice.
 
 ## Mobile navigation and photographs
 

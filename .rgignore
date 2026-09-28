@@ -1,0 +1,8 @@
+# Search-noise exclusions only; use explicit paths or `rg --no-ignore` when inspecting these assets.
+# Original photographs must remain intact.
+/assets/gallery/
+/assets/couple-original-cutout.svg
+/artifacts/
+/output/playwright/
+/.playwright-cli/
+/.cache/

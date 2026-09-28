@@ -21,8 +21,9 @@
   document.body.classList.toggle('review-mode', reviewMode);
 
   let introTimer = 0;
+  let celebrationTimer = 0;
   let introReady = false;
-  let hasCelebrated = false;
+  let introManuallyControlled = false;
   let musicIsPlaying = false;
   let musicNoticeTimer = 0;
   let gallery = [];
@@ -118,16 +119,29 @@
 
   function setVisualState(state) {
     const previousState = hero.dataset.state;
-    if (state === 'photo' && !imageLoaded(cutout)) {
-      hero.dataset.state = 'illustration';
-    } else {
-      hero.dataset.state = state;
-      if (state === 'photo' && previousState !== 'photo' && !reducedMotion.matches && !hasCelebrated) {
-        hasCelebrated = true;
-        celebration.classList.add('is-celebrating');
-        window.setTimeout(() => celebration.classList.remove('is-celebrating'), 1100);
+    const nextState = state === 'photo' && !imageLoaded(cutout) ? 'illustration' : state;
+    hero.dataset.state = nextState;
+    stage.setAttribute('aria-pressed', String(nextState === 'photo'));
+    if (previousState && previousState !== nextState) {
+      if (reducedMotion.matches) {
+        clearCelebration();
+      } else {
+        restartCelebration();
       }
     }
+  }
+
+  function clearCelebration() {
+    window.clearTimeout(celebrationTimer);
+    celebrationTimer = 0;
+    celebration.classList.remove('is-celebrating');
+  }
+
+  function restartCelebration() {
+    clearCelebration();
+    void celebration.offsetWidth;
+    celebration.classList.add('is-celebrating');
+    celebrationTimer = window.setTimeout(clearCelebration, 1050);
   }
 
   function stopIntro() {
@@ -136,7 +150,7 @@
   }
 
   function startAutomaticIntro() {
-    if (reviewMode || !introReady || !imageLoaded(art) || !imageLoaded(cutout)) return;
+    if (reviewMode || introManuallyControlled || !introReady || !imageLoaded(art) || !imageLoaded(cutout)) return;
     if (reducedMotion.matches) {
       setVisualState('photo');
       return;
@@ -146,13 +160,13 @@
     introTimer = window.setTimeout(() => setVisualState('photo'), 1400);
   }
 
-  hero.dataset.state = 'illustration';
+  setVisualState('illustration');
   cutout.addEventListener('load', () => {
     startAutomaticIntro();
   }, { once: true });
   cutout.addEventListener('error', () => {
     cutout.hidden = true;
-    hero.dataset.state = 'illustration';
+    setVisualState('illustration');
   }, { once: true });
   art.addEventListener('load', startAutomaticIntro, { once: true });
 
@@ -166,9 +180,17 @@
   });
 
   reducedMotion.addEventListener?.('change', () => {
+    clearCelebration();
     stopIntro();
+    if (introManuallyControlled) return;
     if (reducedMotion.matches && imageLoaded(cutout)) setVisualState('photo');
     else if (!reviewMode) startAutomaticIntro();
+  });
+
+  stage.addEventListener('click', () => {
+    introManuallyControlled = true;
+    stopIntro();
+    setVisualState(hero.dataset.state === 'photo' ? 'illustration' : 'photo');
   });
 
   musicButton.addEventListener('click', toggleMusic);

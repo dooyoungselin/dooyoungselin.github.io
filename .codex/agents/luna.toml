@@ -1,0 +1,5 @@
+name = "luna"
+description = "Scoped implementation tasks with explicit file ownership and acceptance criteria."
+model = "gpt-6-luna"
+model_reasoning_effort = "xhigh"
+developer_instructions = "Own only the assigned files. Make the smallest change that meets acceptance criteria and preserves project constraints. Run targeted checks. Report changed files, checks and results, and blockers concisely."

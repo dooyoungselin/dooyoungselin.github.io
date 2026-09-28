@@ -53,9 +53,7 @@ button { color: inherit; }
 .music-result:not(:empty) { opacity: 1; visibility: visible; }
 
 .hero-content { position: relative; z-index: 1; width: 100%; min-height: 0; padding: 24px; display: flex; flex: 1 1 auto; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-.save-date { width: min(100%, 340px); height: clamp(48px, 9svh, 64px); margin: 0 0 var(--space-3); color: var(--blue); font-weight: 400; line-height: 1.2; flex: 0 0 auto; }
-.save-date svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.save-date text { fill: currentColor; font: 400 34px/1 "Delius", sans-serif; letter-spacing: .6px; }
+.save-date { width: min(100%, 260px); margin: 0 0 var(--space-3); flex: 0 0 auto; }
 .collage-stage {
   /* Shared stage: tune these variables to align the crop, photo, and original-photo SVG without stretching either face. */
   --art-x: 0%;
@@ -71,54 +69,66 @@ button { color: inherit; }
   max-height: 372px;
   max-width: 76vw;
   aspect-ratio: .68;
+  transform: translateX(8%);
   flex: 0 1 auto;
   margin: 0 0 var(--space-3);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 0;
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
   isolation: isolate;
 }
 .illustration-layer, .couple-cutout { position: absolute; inset: 0; width: 100%; height: 100%; }
 .illustration-layer { overflow: hidden; background: var(--paper); mix-blend-mode: multiply; opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg); transition: opacity .9s ease, transform .9s ease; }
 .illustration-layer img { position: absolute; display: block; width: 209.46%; max-width: none; height: auto; left: -62.5%; top: -43.1%; transform: translate(var(--art-x), var(--art-y)) scale(var(--art-scale)); transform-origin: center; user-select: none; }
 
-.couple-cutout { display: block; object-fit: contain; opacity: 0; transform: translate3d(var(--photo-x), calc(var(--photo-y) + 8px), 0) scale(var(--photo-scale)); transform-origin: 50% 50%; filter: drop-shadow(0 0 1px var(--paper)) drop-shadow(0 2px 1px var(--paper)) drop-shadow(0 5px 5px rgba(37, 48, 82, .16)); transition: opacity .9s ease, transform .9s ease; pointer-events: none; }
+.couple-cutout { display: block; object-fit: contain; opacity: 0; transform: translate3d(var(--photo-x), calc(var(--photo-y) + 8px), 0) scale(var(--photo-scale)); transform-origin: 50% 100%; filter: drop-shadow(0 0 1px var(--paper)) drop-shadow(0 2px 1px var(--paper)) drop-shadow(0 5px 5px rgba(37, 48, 82, .16)); transition: opacity .9s ease, transform .9s ease; pointer-events: none; }
 .hero[data-state="photo"] .illustration-layer { opacity: 0; transform: translate3d(0, -5px, 0) rotate(-1deg); }
 .hero[data-state="photo"] .couple-cutout { opacity: 1; transform: translate3d(var(--photo-x), var(--photo-y), 0) scale(var(--photo-scale)); }
 .collage-stage.is-calibrating .illustration-layer,
 .collage-stage.is-calibrating .couple-cutout { opacity: .5 !important; transition: none !important; }
-.firework-burst { position: absolute; z-index: 2; inset: -8px; overflow: visible; pointer-events: none; }
-.burst-particle { position: absolute; display: block; opacity: 0; color: var(--blue); background: var(--blue); transform: translate(0, 0) scale(.55); }
-.burst-line { width: 10px; height: 2px; border-radius: 2px; }
-.burst-dot { width: 5px; height: 5px; border-radius: 50%; background: #7196f0; }
-.burst-heart { width: auto; height: auto; background: transparent; color: #7196f0; font-size: 15px; line-height: 1; }
+/* Cancel the stage's 8% shift so the burst stays centered on the hero. */
+.firework-burst { position: absolute; z-index: 2; inset: -8px calc(8% - 8px) -8px calc(-8% - 8px); overflow: visible; pointer-events: none; }
+.burst-particle { position: absolute; display: block; opacity: 0; color: var(--blue); background: var(--blue); transform: translate(0, 0) scale(.65); }
+.burst-line { width: 8px; height: 2px; border-radius: 2px; }
+.burst-dot { width: 4px; height: 4px; border-radius: 50%; background: #91adf0; }
+.burst-heart { width: auto; height: auto; background: transparent; color: #7196f0; font-size: 11px; line-height: 1; }
 .burst-heart::before { content: "♡"; }
-.burst-particle:nth-child(1) { left: 8%; top: 9%; --dx: -13px; --dy: -15px; --turn: -32deg; }
-.burst-particle:nth-child(2) { left: 31%; top: 2%; --dx: -6px; --dy: -20px; --turn: 14deg; }
-.burst-particle:nth-child(3) { left: 67%; top: 4%; --dx: 8px; --dy: -20px; --turn: -15deg; }
-.burst-particle:nth-child(4) { left: 88%; top: 12%; --dx: 15px; --dy: -12px; --turn: 36deg; }
-.burst-particle:nth-child(5) { left: 95%; top: 34%; --dx: 20px; --dy: -3px; --turn: 8deg; }
-.burst-particle:nth-child(6) { left: 96%; top: 62%; --dx: 20px; --dy: 7px; --turn: -20deg; }
-.burst-particle:nth-child(7) { left: 88%; top: 84%; --dx: 15px; --dy: 16px; --turn: 24deg; }
-.burst-particle:nth-child(8) { left: 68%; top: 95%; --dx: 8px; --dy: 20px; --turn: 0deg; }
-.burst-particle:nth-child(9) { left: 32%; top: 96%; --dx: -8px; --dy: 20px; --turn: -18deg; }
-.burst-particle:nth-child(10) { left: 11%; top: 85%; --dx: -15px; --dy: 16px; --turn: 33deg; }
-.burst-particle:nth-child(11) { left: 3%; top: 65%; --dx: -20px; --dy: 7px; --turn: -15deg; }
-.burst-particle:nth-child(12) { left: 4%; top: 38%; --dx: -20px; --dy: -5px; --turn: 30deg; }
-.burst-particle:nth-child(13) { left: 19%; top: 23%; --dx: -16px; --dy: -12px; --turn: 9deg; }
-.burst-particle:nth-child(14) { left: 79%; top: 25%; --dx: 16px; --dy: -12px; --turn: -32deg; }
-.burst-particle:nth-child(15) { left: 22%; top: 76%; --dx: -15px; --dy: 13px; --turn: 28deg; }
-.burst-particle:nth-child(16) { left: 78%; top: 74%; --dx: 15px; --dy: 14px; --turn: -24deg; }
-.firework-burst.is-celebrating .burst-particle { animation: firework-pop .8s ease-out .2s both; }
+.burst-particle:nth-child(1) { left: 4%; top: 14%; --dx: -8px; --dy: -5px; --turn: -32deg; }
+.burst-particle:nth-child(2) { left: 96%; top: 14%; --dx: 8px; --dy: -5px; --turn: 14deg; }
+.burst-particle:nth-child(3) { left: 2%; top: 30%; --dx: -9px; --dy: 0; --turn: -15deg; }
+.burst-particle:nth-child(4) { left: 98%; top: 31%; --dx: 9px; --dy: 1px; --turn: 36deg; }
+.burst-particle:nth-child(5) { left: 3%; top: 48%; --dx: -9px; --dy: 2px; --turn: 8deg; }
+.burst-particle:nth-child(6) { left: 97%; top: 48%; --dx: 9px; --dy: 2px; --turn: -20deg; }
+.burst-particle:nth-child(7) { left: 4%; top: 66%; --dx: -8px; --dy: 5px; --turn: 24deg; }
+.burst-particle:nth-child(8) { left: 96%; top: 67%; --dx: 8px; --dy: 5px; --turn: 0deg; }
+.burst-particle:nth-child(9) { left: 7%; top: 84%; --dx: -7px; --dy: 8px; --turn: -18deg; }
+.burst-particle:nth-child(10) { left: 93%; top: 84%; --dx: 7px; --dy: 8px; --turn: 33deg; }
+.burst-particle:nth-child(11) { left: 18%; top: 96%; --dx: -5px; --dy: 8px; --turn: -15deg; }
+.burst-particle:nth-child(12) { left: 82%; top: 96%; --dx: 5px; --dy: 8px; --turn: 30deg; }
+.burst-particle:nth-child(13) { left: 6%; top: 92%; --dx: -8px; --dy: 7px; --turn: 9deg; }
+.burst-particle:nth-child(14) { left: 94%; top: 92%; --dx: 8px; --dy: 7px; --turn: -32deg; }
+.burst-particle:nth-child(15) { left: 27%; top: 98%; --dx: -4px; --dy: 9px; --turn: 28deg; }
+.burst-particle:nth-child(16) { left: 73%; top: 98%; --dx: 4px; --dy: 9px; --turn: -24deg; }
+.firework-burst.is-celebrating .burst-particle { animation: firework-pop .95s ease-out both; }
 @keyframes firework-pop {
-  0% { opacity: 0; transform: translate(0, 0) rotate(var(--turn)) scale(.55); }
-  14% { opacity: .96; }
-  75% { opacity: .82; }
+  0% { opacity: 0; transform: translate(0, 0) rotate(var(--turn)) scale(.65); }
+  18% { opacity: .9; }
+  68% { opacity: .78; }
   100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(calc(var(--turn) * 1.8)) scale(1); }
 }
 
 .hero-copy { width: 100%; color: var(--blue); }
-.couple-names { margin: 0; font-family: "Delius", sans-serif; font-size: clamp(29px, 8vw, 34px); font-weight: 400; line-height: 1.25; letter-spacing: .01em; }
-.hero-date { margin: var(--space-2) 0 0; font-size: 15px; line-height: 1.5; letter-spacing: .025em; }
-.hero-date span { margin: 0 var(--space-1); }
-.hero-venue { margin: var(--space-1) 0 0; font-size: 14px; line-height: 1.6; }
+.couple-names { width: min(90%, 270px); margin: 0 auto; }
+.hero-date { width: min(90%, 225px); margin: var(--space-2) auto 0; }
+.hero-date time { display: block; }
+.hero-venue { width: min(90%, 252px); margin: var(--space-1) auto 0; }
+.save-date img, .couple-names img, .hero-date img, .hero-venue img { display: block; width: 100%; height: auto; margin-inline: auto; }
 .scroll-cue { position: relative; z-index: 1; min-height: 40px; margin: 0 auto; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); font-size: 12px; line-height: 1.3; text-decoration: none; white-space: nowrap; }
 .scroll-cue svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -313,17 +323,13 @@ body.dialog-open { overflow: hidden; }
   .rsvp-section .form-card { margin-top: 0; }
 }
 @media (max-width: 400px) {
-  .hero-content { padding-right: 20px; padding-left: 20px; }
+  .hero-content { padding-right: 40px; padding-left: 40px; }
   .collage-stage { height: min(41svh, 290px); min-height: 0; max-height: 290px; }
-  .save-date { font-size: 33px; }
   .event-summary h3 { font-size: 23px; }
   .location-venue { font-size: 20px; }
 }
 @media (max-width: 360px) {
-  .hero-content { padding-right: 16px; padding-left: 16px; }
   .collage-stage { height: min(39svh, 250px); min-height: 0; max-height: 250px; }
-  .save-date { font-size: 31px; }
-  .couple-names { font-size: 26px; }
   .section { padding-right: 20px; padding-left: 20px; }
   .address-row { gap: var(--space-1); }
   .location-address { font-size: 14px; }
@@ -334,7 +340,7 @@ body.dialog-open { overflow: hidden; }
 }
 @media (max-height: 700px) {
   .hero-content { padding-block: 84px 40px; }
-  .save-date { height: clamp(48px, 9svh, 62px); margin-bottom: var(--space-1); }
+  .save-date { margin-bottom: var(--space-1); }
   .collage-stage { height: min(41svh, 290px); min-height: 0; margin-bottom: var(--space-1); }
   .hero-date { margin-top: var(--space-1); }
   .hero-venue { margin-top: 0; }
