@@ -20,10 +20,10 @@ Font research: [Delius](https://github.com/google/fonts/tree/main/ofl/delius), [
 
 ## Color and composition
 
-- Paper `#fffef9`; cobalt `#11199f`; reading ink `#253052`; secondary text `#626779`.
+- Paper and all page/section surroundings `#ffffff`; cobalt `#11199f`; reading ink `#253052`; secondary text `#626779`. The user requested removing grey/tinted background bands.
 - Use semantic CSS variables for reusable colors, font roles, spaces, radii, and durations.
 - Spacing steps: 4, 8, 12, 16, 24, 32, 48, 64, 80px. Related information is close; sections have larger breathing room.
-- Invitation column: maximum 480px; gutter 24px on phones, up to 40px on wider screens. Desktop surrounds the column with quiet paper-toned space.
+- Invitation column: maximum 480px; gutter 24px on phones, up to 40px on wider screens. Desktop surrounds the column with the same white background. The cover frame sits closer to the viewport edges than the body gutter.
 - Hero: one small-viewport height when content fits, flexible enough to remain readable on short screens. Group headline, portrait, names, date, and venue. No scroll lock.
 - Main reading order: couple → invitation → photographs → date/location → RSVP → guestbook.
 - Doodle frame and hearts use a consistent 2.5px stroke. Avoid repetitive dashboard cards, decorative gradients, large shadow panels, and unrelated themes.
@@ -35,7 +35,14 @@ Use `assets/couple-original-cutout.svg`: it embeds the original Main-derived JPE
 
 Prioritize matching the head centers and foot baseline of the illustration and photograph. Cartoon anatomy cannot match every point of the photograph without distortion; keep natural proportions and use optical alignment rather than warping faces or bodies.
 
-Once images are ready, hold the drawing around 1.4 seconds and dissolve to the photographic cutout around 0.9 seconds. Any small paper-settle motion must be subtle and interruptible. Keep all text stable. With reduced motion, use static/manual states. A failed image keeps the drawing visible.
+Once images are ready, hold the drawing around 1.4 seconds and dissolve to the photographic cutout around 0.9 seconds. A brief cobalt/light-blue burst of small lines, dots and hearts may appear around the portrait edges once as the photo arrives, without covering faces. Keep all text stable. With reduced motion, show a static photograph and no particles. A failed image keeps the drawing visible. No public replay button; the music control is a small accessible icon with an honest preparation notice until audio is connected.
+
+## Mobile navigation and photographs
+
+- Use native vertical proximity scroll snapping at section and gallery-panel starts on mobile. Preserve normal scrolling through long sections and forms; do not intercept wheel/touch gestures or use mandatory snapping.
+- Place the scroll cue in a small separate row below the cover frame, away from its bottom line and corner hearts.
+- Arrange all 30 photos in varied-size panel grids with consistent gaps and manifest reading order. Individual photos open a viewer; there is no horizontal thumbnail carousel.
+- The viewer uses the available dynamic viewport height. Its close X, counter and previous/next controls stay visible while the image fits the remaining space. Account for safe areas, short landscape screens and focus restoration.
 
 ## Applied research and boundaries
 
@@ -45,4 +52,4 @@ TypeUI Atlas/Cream are reference checks only. MengTo's video/HTML prompt-extract
 
 ## Current delivery scope
 
-The selected invitation is served from the repository root. The gallery contains 30 optimized photos with a scroll-snap strip and modal viewer. RSVP and guestbook are clearly marked input previews; Google Sheets persistence and selected audio playback remain pending. Never label a preview submit as saved. Local research and development copies remain under ignored `artifacts/`.
+The selected invitation is served from the repository root. The gallery contains 30 optimized photos with panel grids and a modal viewer. RSVP and guestbook are clearly marked input previews; Google Sheets persistence and selected audio playback remain pending. Never label a preview submit as saved. Local research and development copies remain under ignored `artifacts/`.

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#fffef9">
+  <meta name="theme-color" content="#ffffff">
   <meta name="robots" content="noindex,nofollow">
   <meta name="description" content="두영과 세린의 결혼식에 초대합니다. 2027년 2월 13일 토요일 오후 1시 30분, 대전 씨엘드레브 르자르뎅홀.">
   <meta property="og:type" content="website">
@@ -15,8 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Delius&family=Gowun+Dodum&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260928-blue1">
-  <script src="app.js?v=20260928-blue1" defer></script>
+  <link rel="stylesheet" href="style.css?v=20260928-mobile2">
+  <script src="app.js?v=20260928-mobile2" defer></script>
 </head>
 <body>
   <section id="design-review" class="design-review" aria-labelledby="review-title" hidden>
@@ -29,7 +29,7 @@
     </div>
     <div class="review-bottom">
       <ul class="rule-summary">
-        <li>아이보리 종이 · 코발트 잉크 · 짙은 남색 본문</li>
+        <li>흰 종이 · 코발트 잉크 · 짙은 남색 본문</li>
         <li>영문 Delius, 한글과 본문 Gowun Dodum</li>
         <li>4px 간격 단위 · 24px 모바일 여백 · 버튼과 입력 44px 이상</li>
         <li>사진 전환은 선택적 모션 설정을 따르고, RSVP와 방명록은 저장하지 않는 시안</li>
@@ -47,15 +47,18 @@
     <section class="hero" aria-labelledby="couple-names">
       <div class="hero-frame">
         <svg class="hand-frame" viewBox="0 0 390 800" preserveAspectRatio="none" aria-hidden="true">
-          <path class="frame-line" d="M37 30 C129 32 250 27 351 30 L353 43 C356 149 352 270 355 400 C353 531 356 657 352 759 L341 765 C238 763 132 768 38 765 L36 753 C33 641 37 520 34 399 C37 268 33 144 36 43 Z"/>
-          <path class="corner-heart" d="M29 36 C20 28 18 20 23 16 C28 12 33 17 34 22 C37 15 44 14 47 19 C51 26 43 34 34 41 C32 39 30 37 29 36Z"/>
-          <path class="corner-heart" d="M358 36 C349 28 347 20 352 16 C357 12 362 17 363 22 C366 15 373 14 376 19 C380 26 372 34 363 41 C361 39 359 37 358 36Z"/>
-          <path class="corner-heart" d="M29 765 C20 757 18 749 23 745 C28 741 33 746 34 751 C37 744 44 743 47 748 C51 755 43 763 34 770 C32 768 30 766 29 765Z"/>
-          <path class="corner-heart" d="M358 765 C349 757 347 749 352 745 C357 741 362 746 363 751 C366 744 373 743 376 748 C380 755 372 763 363 770 C361 768 359 766 358 765Z"/>
+          <path class="frame-line" d="M21 30 C126 32 262 27 369 30 L370 43 C373 149 369 270 372 400 C370 531 373 657 369 759 L358 765 C250 763 137 768 21 765 L20 753 C17 641 21 520 18 399 C21 268 17 144 20 43 Z"/>
+          <path class="corner-heart" d="M20 36 C13 28 12 20 16 16 C21 12 25 17 26 22 C29 15 35 14 38 19 C42 26 36 34 27 41 C25 39 22 37 20 36Z"/>
+          <path class="corner-heart" d="M359 36 C352 28 351 20 355 16 C360 12 364 17 365 22 C368 15 374 14 377 19 C381 26 375 34 366 41 C364 39 361 37 359 36Z"/>
+          <path class="corner-heart" d="M20 765 C13 757 12 749 16 745 C21 741 25 746 26 751 C29 744 35 743 38 748 C42 755 36 763 27 770 C25 768 22 766 20 765Z"/>
+          <path class="corner-heart" d="M359 765 C352 757 351 749 355 745 C360 741 364 746 365 751 C368 744 374 743 377 748 C381 755 375 763 366 770 C364 768 361 766 359 765Z"/>
         </svg>
 
         <div class="hero-tools">
-          <button id="music-button" class="button button--outline music-button" type="button" aria-describedby="music-result">음악 준비 중</button>
+          <button id="music-button" class="button button--outline music-button" type="button" aria-label="배경음악 안내" aria-describedby="music-result">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13M9 9l11-2M6 21a3 2 0 1 0 0-4 3 2 0 0 0 0 4Zm11-2a3 2 0 1 0 0-4 3 2 0 0 0 0 4Z"/></svg>
+          </button>
+          <p id="music-result" class="music-result" role="status" aria-live="polite"></p>
         </div>
 
         <div class="hero-content">
@@ -65,18 +68,25 @@
               <img id="invitation-art" src="assets/invitation.png" alt="">
             </div>
             <img id="couple-cutout" class="couple-cutout" src="assets/couple-original-cutout.svg" alt="" aria-hidden="true">
+            <div class="firework-burst" aria-hidden="true">
+              <span class="burst-particle burst-line"></span><span class="burst-particle burst-heart"></span>
+              <span class="burst-particle burst-dot"></span><span class="burst-particle burst-line"></span>
+              <span class="burst-particle burst-heart"></span><span class="burst-particle burst-dot"></span>
+              <span class="burst-particle burst-line"></span><span class="burst-particle burst-dot"></span>
+              <span class="burst-particle burst-heart"></span><span class="burst-particle burst-line"></span>
+              <span class="burst-particle burst-dot"></span><span class="burst-particle burst-line"></span>
+              <span class="burst-particle burst-heart"></span><span class="burst-particle burst-dot"></span>
+              <span class="burst-particle burst-line"></span><span class="burst-particle burst-dot"></span>
+            </div>
           </div>
           <div class="hero-copy">
             <h2 id="couple-names" class="couple-names" lang="en">Dooyoung &amp; Selin</h2>
             <p class="hero-date"><time datetime="2027-02-13T13:30:00+09:00" aria-label="2027년 2월 13일 토요일 오후 1시 30분">2027.02.13 · SAT · 13:30</time></p>
             <p class="hero-venue">Ciel de Rêve · Le Jardin Hall</p>
-            <p id="music-result" class="music-result" role="status" aria-live="polite"></p>
-            <button id="intro-button" class="button button--outline intro-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M5.6 9A7 7 0 0 1 18 6l2 2M4 16l2-2a7 7 0 0 0 12.4-3"/></svg><span>사진 전환 다시 보기</span></button>
-            <p id="intro-status" class="intro-status" aria-live="polite" role="status"></p>
           </div>
-          <a class="scroll-cue" href="#invitation-copy"><span>아래로 스크롤</span><span aria-hidden="true">↓</span></a>
         </div>
       </div>
+      <a class="scroll-cue" href="#invitation-copy"><span>아래로 스크롤</span><span aria-hidden="true">↓</span></a>
     </section>
 
     <div class="page-content">
@@ -90,12 +100,7 @@
 
       <section class="section photo-section" aria-labelledby="photo-heading">
         <h2 id="photo-heading" class="section-title">함께한 순간</h2>
-        <div class="gallery-toolbar">
-          <button id="gallery-previous" class="gallery-arrow button button--outline" type="button" aria-label="이전 사진"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
-          <p id="gallery-count" class="gallery-count" aria-live="polite" aria-atomic="true">사진을 불러오는 중</p>
-          <button id="gallery-next" class="gallery-arrow button button--outline" type="button" aria-label="다음 사진"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
-        </div>
-        <div id="gallery-track" class="gallery-track" role="region" aria-label="웨딩 사진. 좌우로 스크롤하여 사진을 둘러보세요" tabindex="0">
+        <div id="gallery-track" class="gallery-track" role="region" aria-label="웨딩 사진 모음">
           <p id="gallery-status" class="gallery-status">사진을 준비하고 있어요.</p>
           <div id="gallery-items" class="gallery-items"></div>
         </div>
@@ -154,10 +159,10 @@
   </main>
 
   <dialog id="photo-dialog" class="photo-dialog" aria-label="웨딩 사진 크게 보기">
-    <div class="dialog-topbar"><span id="dialog-count" class="dialog-count"></span><button id="dialog-close" class="dialog-close button button--outline" type="button">닫기</button></div>
+    <div class="dialog-topbar"><span id="dialog-count" class="dialog-count" aria-live="polite" aria-atomic="true"></span><button id="dialog-close" class="dialog-close button button--outline" type="button" aria-label="닫기">×</button></div>
     <div id="dialog-swipe-area" class="dialog-swipe-area"><img id="dialog-image" src="" alt=""></div>
     <p id="photo-dialog-status" class="dialog-status" role="status" aria-live="polite"></p>
-    <div class="dialog-controls"><button id="dialog-previous" class="button button--outline" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg><span>이전</span></button><button id="dialog-next" class="button button--outline" type="button"><span>다음</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></div>
+    <div class="dialog-controls"><button id="dialog-previous" class="button button--outline" type="button" aria-label="이전 사진"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg><span>이전</span></button><button id="dialog-next" class="button button--outline" type="button" aria-label="다음 사진"><span>다음</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></div>
   </dialog>
 </body>
 </html>

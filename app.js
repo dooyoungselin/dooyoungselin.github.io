@@ -5,9 +5,7 @@
   const stage = $('#collage-stage');
   const art = $('#invitation-art');
   const cutout = $('#couple-cutout');
-  const introButton = $('#intro-button');
-  const introLabel = $('#intro-button span');
-  const introStatus = $('#intro-status');
+  const celebration = $('.firework-burst');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const reviewMode = new URLSearchParams(window.location.search).get('review') === '1';
   const reviewPanel = $('#design-review');
@@ -18,10 +16,11 @@
 
   let introTimer = 0;
   let introReady = false;
+  let hasCelebrated = false;
   let gallery = [];
   let activeIndex = 0;
   let focusedThumb = null;
-  let scrollFrame = 0;
+  let dialogScroll = { x: 0, y: 0 };
   const prefetched = new Set();
 
   function imageLoaded(image) {
@@ -40,31 +39,18 @@
     return Promise.race([promise.catch(() => {}), new Promise((resolve) => window.setTimeout(resolve, ms))]);
   }
 
-  function updateIntroLabel() {
-    if (!imageLoaded(cutout)) {
-      introButton.disabled = true;
-      introStatus.textContent = '사진을 불러오지 못해 초대장 그림을 보여드려요.';
-      return;
-    }
-    introButton.disabled = false;
-    if (reducedMotion.matches) {
-      introLabel.textContent = hero.dataset.state === 'photo' ? '그림 보기' : '사진 보기';
-      introButton.setAttribute('aria-label', hero.dataset.state === 'photo' ? '손그림을 다시 보기' : '사진 보기');
-      return;
-    }
-    introLabel.textContent = '사진 전환 다시 보기';
-    introButton.removeAttribute('aria-label');
-  }
-
   function setVisualState(state) {
+    const previousState = hero.dataset.state;
     if (state === 'photo' && !imageLoaded(cutout)) {
       hero.dataset.state = 'illustration';
-      introStatus.textContent = '사진을 불러오지 못해 초대장 그림을 보여드려요.';
     } else {
       hero.dataset.state = state;
-      introStatus.textContent = '';
+      if (state === 'photo' && previousState !== 'photo' && !reducedMotion.matches && !hasCelebrated) {
+        hasCelebrated = true;
+        celebration.classList.add('is-celebrating');
+        window.setTimeout(() => celebration.classList.remove('is-celebrating'), 1100);
+      }
     }
-    updateIntroLabel();
   }
 
   function stopIntro() {
@@ -72,16 +58,12 @@
     introTimer = 0;
   }
 
-  function startIntro() {
-    stopIntro();
-    hero.scrollIntoView({ block: 'start', behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-    setVisualState('illustration');
-    if (reducedMotion.matches || !imageLoaded(cutout)) return;
-    introTimer = window.setTimeout(() => setVisualState('photo'), 1400);
-  }
-
   function startAutomaticIntro() {
-    if (reviewMode || reducedMotion.matches || !introReady || !imageLoaded(art) || !imageLoaded(cutout)) return;
+    if (reviewMode || !introReady || !imageLoaded(art) || !imageLoaded(cutout)) return;
+    if (reducedMotion.matches) {
+      setVisualState('photo');
+      return;
+    }
     if (hero.dataset.autoStarted === 'true') return;
     hero.dataset.autoStarted = 'true';
     introTimer = window.setTimeout(() => setVisualState('photo'), 1400);
@@ -89,13 +71,11 @@
 
   hero.dataset.state = 'illustration';
   cutout.addEventListener('load', () => {
-    updateIntroLabel();
     startAutomaticIntro();
   }, { once: true });
   cutout.addEventListener('error', () => {
     cutout.hidden = true;
     hero.dataset.state = 'illustration';
-    updateIntroLabel();
   }, { once: true });
   art.addEventListener('load', startAutomaticIntro, { once: true });
 
@@ -105,27 +85,17 @@
   const imagesReady = Promise.all([waitForImage(art), waitForImage(cutout)]);
   waitAtMost(Promise.all([fontsReady, imagesReady]), 1800).then(() => {
     introReady = true;
-    updateIntroLabel();
     startAutomaticIntro();
   });
 
-  introButton.addEventListener('click', () => {
-    if (reducedMotion.matches) {
-      stopIntro();
-      setVisualState(hero.dataset.state === 'photo' ? 'illustration' : 'photo');
-    } else {
-      startIntro();
-    }
-  });
   reducedMotion.addEventListener?.('change', () => {
     stopIntro();
-    if (reducedMotion.matches) setVisualState('illustration');
+    if (reducedMotion.matches && imageLoaded(cutout)) setVisualState('photo');
     else if (!reviewMode) startAutomaticIntro();
-    updateIntroLabel();
   });
 
   $('#music-button').addEventListener('click', () => {
-    $('#music-result').textContent = '밝고 잔잔한 연주곡을 준비하고 있어요.';
+    $('#music-result').textContent = '음악을 준비하고 있어요.';
   });
   $('#rsvp-form').addEventListener('submit', (event) => {
     event.preventDefault();
@@ -153,42 +123,25 @@
     });
   }
 
-  // Load small local thumbnails into a scroll-snap strip; full images are requested only in the dialog.
-  const track = $('#gallery-track');
+  // Keep the manifest's order while grouping photos into five-image collage panels.
   const itemsHost = $('#gallery-items');
-  const galleryCounter = $('#gallery-count');
   const galleryStatus = $('#gallery-status');
-  const previousButton = $('#gallery-previous');
-  const nextButton = $('#gallery-next');
   const dialog = $('#photo-dialog');
   const dialogImage = $('#dialog-image');
   const dialogCount = $('#dialog-count');
   const dialogStatus = $('#photo-dialog-status');
+  const dialogPrevious = $('#dialog-previous');
+  const dialogNext = $('#dialog-next');
 
-  function setGalleryIndex(index, scroll = false) {
+  function setGalleryIndex(index) {
     if (!gallery.length) return;
     activeIndex = Math.max(0, Math.min(gallery.length - 1, index));
-    galleryCounter.textContent = `${activeIndex + 1} / ${gallery.length}`;
     $$('.gallery-thumb', itemsHost).forEach((button, i) => {
       if (i === activeIndex) button.setAttribute('aria-current', 'true');
       else button.removeAttribute('aria-current');
     });
-    previousButton.disabled = activeIndex === 0;
-    nextButton.disabled = activeIndex === gallery.length - 1;
-    if (scroll) $$('.gallery-thumb', itemsHost)[activeIndex]?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-  }
-
-  function nearestGalleryIndex() {
-    const trackRect = track.getBoundingClientRect();
-    const center = trackRect.left + trackRect.width / 2;
-    let nearest = 0;
-    let distance = Infinity;
-    $$('.gallery-thumb', itemsHost).forEach((button, index) => {
-      const rect = button.getBoundingClientRect();
-      const nextDistance = Math.abs(rect.left + rect.width / 2 - center);
-      if (nextDistance < distance) { nearest = index; distance = nextDistance; }
-    });
-    setGalleryIndex(nearest);
+    dialogPrevious.disabled = activeIndex === 0;
+    dialogNext.disabled = activeIndex === gallery.length - 1;
   }
 
   function prefetchNeighbor(index) {
@@ -196,7 +149,7 @@
     if (!item || prefetched.has(item.src)) return;
     prefetched.add(item.src);
     const image = new Image();
-    image.loading = 'lazy';
+    image.fetchPriority = 'low';
     image.decoding = 'async';
     image.src = item.src;
   }
@@ -219,10 +172,12 @@
   function openPhoto(index, trigger) {
     if (!gallery.length || !dialog.showModal) return;
     focusedThumb = trigger || document.activeElement;
+    dialogScroll = { x: window.scrollX, y: window.scrollY };
     showDialogImage(index);
+    document.documentElement.classList.add('dialog-open');
     document.body.classList.add('dialog-open');
     dialog.showModal();
-    $('#dialog-close').focus();
+    $('#dialog-close').focus({ preventScroll: true });
   }
 
   function closePhotoDialog() {
@@ -234,36 +189,53 @@
     showDialogImage(activeIndex + delta);
   }
 
-  function updateGalleryScroll() {
-    window.cancelAnimationFrame(scrollFrame);
-    scrollFrame = window.requestAnimationFrame(nearestGalleryIndex);
-  }
-
   function renderGallery(records) {
     gallery = records.filter((item) => item && typeof item.src === 'string' && typeof item.thumb === 'string');
     if (!gallery.length) throw new Error('The gallery manifest contains no usable images.');
     const fragment = document.createDocumentFragment();
+    const panels = [];
     gallery.forEach((item, index) => {
+      const panelIndex = Math.floor(index / 5);
+      const panelLeadIndex = panelIndex * 5;
+      let panel = panels[panelIndex];
+      if (!panel) {
+        panel = document.createElement('div');
+        const panelPhoto = gallery[panelLeadIndex];
+        const panelLayout = Number(panelPhoto.width) > Number(panelPhoto.height)
+          ? 'wide'
+          : (panelIndex % 2 === 0 ? 'portrait-left' : 'portrait-right');
+        panel.className = `gallery-panel gallery-panel--${panelLayout}`;
+        panel.setAttribute('role', 'group');
+        panel.setAttribute('aria-label', `사진 ${panelLeadIndex + 1}–${Math.min(panelLeadIndex + 5, gallery.length)}`);
+        panels[panelIndex] = panel;
+        fragment.append(panel);
+      }
       const button = document.createElement('button');
-      button.className = 'gallery-thumb';
+      button.className = `gallery-thumb${index === panelLeadIndex ? ' gallery-thumb--lead' : ''}`;
       button.type = 'button';
       button.dataset.index = String(index);
       button.setAttribute('aria-label', `사진 ${index + 1}: ${item.alt || '웨딩 사진'} 크게 보기`);
       const image = document.createElement('img');
       image.src = item.thumb;
+      const fullWidth = Number(item.width) || 1067;
+      const fullHeight = Number(item.height) || 1600;
+      const thumbWidth = fullWidth > fullHeight ? 440 : Math.round(fullWidth * 440 / fullHeight);
+      image.srcset = `${item.thumb} ${thumbWidth}w, ${item.src} ${fullWidth}w`;
+      image.sizes = index === panelLeadIndex
+        ? '(max-width: 600px) calc(100vw - 48px), 400px'
+        : '(max-width: 600px) calc((100vw - 56px) / 2), 196px';
       image.alt = '';
       image.loading = 'lazy';
       image.decoding = 'async';
-      image.width = Number(item.width) || 320;
-      image.height = Number(item.height) || 480;
+      image.width = fullWidth;
+      image.height = fullHeight;
       button.append(image);
       button.addEventListener('click', () => openPhoto(index, button));
-      fragment.append(button);
+      panel.append(button);
     });
     itemsHost.replaceChildren(fragment);
     galleryStatus.hidden = true;
     setGalleryIndex(0);
-    track.addEventListener('scroll', updateGalleryScroll, { passive: true });
   }
 
   fetch('gallery-manifest.json')
@@ -274,22 +246,25 @@
     .then(renderGallery)
     .catch(() => {
       galleryStatus.textContent = '사진을 불러오지 못했어요. 잠시 후 다시 열어 주세요.';
-      galleryCounter.textContent = '사진 없음';
       itemsHost.replaceChildren();
-      previousButton.disabled = true;
-      nextButton.disabled = true;
     });
 
-  previousButton.addEventListener('click', () => setGalleryIndex(activeIndex - 1, true));
-  nextButton.addEventListener('click', () => setGalleryIndex(activeIndex + 1, true));
   $('#dialog-previous').addEventListener('click', () => moveDialog(-1));
   $('#dialog-next').addEventListener('click', () => moveDialog(1));
   $('#dialog-close').addEventListener('click', closePhotoDialog);
   dialog.addEventListener('close', () => {
     document.body.classList.remove('dialog-open');
     dialogImage.removeAttribute('src');
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(dialogScroll.x, dialogScroll.y);
     focusedThumb?.focus({ preventScroll: true });
     focusedThumb = null;
+    window.requestAnimationFrame(() => {
+      root.style.scrollBehavior = previousScrollBehavior;
+      root.classList.remove('dialog-open');
+    });
   });
   dialog.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowLeft') { event.preventDefault(); moveDialog(-1); }
