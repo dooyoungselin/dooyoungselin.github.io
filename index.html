@@ -25,8 +25,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Delius&family=Gowun+Dodum&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260928-mobile4">
-  <script src="app.js?v=20260928-mobile3" defer></script>
+  <link rel="stylesheet" href="style.css?v=20260928-mobile6">
+  <script src="app.js?v=20260928-mobile6" defer></script>
 </head>
 <body>
   <section id="design-review" class="design-review" aria-labelledby="review-title" hidden>
@@ -59,9 +59,11 @@
         <div class="hand-frame" aria-hidden="true"></div>
 
         <div class="hero-tools">
-          <button id="music-button" class="button button--outline music-button" type="button" aria-label="배경음악 안내" aria-describedby="music-result">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13M9 9l11-2M6 21a3 2 0 1 0 0-4 3 2 0 0 0 0 4Zm11-2a3 2 0 1 0 0-4 3 2 0 0 0 0 4Z"/></svg>
+          <button id="music-button" class="button button--outline music-button" type="button" aria-label="배경음악 안내" aria-describedby="music-result" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path class="music-note" d="M9 18V5l11-2v13M9 9l11-2M6 21a3 2 0 1 0 0-4 3 2 0 0 0 0 4Zm11-2a3 2 0 1 0 0-4 3 2 0 0 0 0 4Z"/><path class="music-slash" d="m4 4 16 16"/></svg>
           </button>
+          <!-- Attach the approved track with src (or a source child) once one is selected. -->
+          <audio id="background-music" loop preload="none" hidden></audio>
           <p id="music-result" class="music-result" role="status" aria-live="polite"></p>
         </div>
 
@@ -108,20 +110,63 @@
         <div id="gallery-items" class="gallery-scenes"></div>
       </section>
 
-      <section class="section details-section" aria-labelledby="details-title">
+      <section class="section details-section event-section" aria-labelledby="details-title">
         <h2 id="details-title" class="section-title">예식 안내</h2>
-        <div class="details-card">
-          <div class="details-date"><strong>13</strong><span>2027년 2월</span></div>
-          <div class="details-copy">
-            <h3>대전 씨엘드레브<br>르자르뎅홀</h3>
-            <p class="details-time">2027년 2월 13일 토요일<br>오후 1시 30분</p>
-            <address>대전광역시 서구 계룡로314번길 8</address>
-            <p class="transit-copy">월평역(한국과학기술원) 2번 출구<br>대전일보사 정류장 도보 3분<br>주말 무료 발렛</p>
-            <nav class="map-links" aria-label="지도에서 예식장 위치 보기">
-              <a class="button button--outline" href="https://kko.kakao.com/E4FIjdEO-r" target="_blank" rel="noopener">카카오 길찾기 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-              <a class="button button--outline" href="https://map.naver.com/p/search/%EB%8C%80%EC%A0%84%20%EC%84%9C%EA%B5%AC%20%EC%9B%94%ED%8F%89%EB%8F%99%2025-19/address/14177965.5151736,4349340.7758311,%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%84%9C%EA%B5%AC%20%EC%9B%94%ED%8F%89%EB%8F%99%2025-19,jibun?c=14.00,0,0,0,dh&amp;isCorrectAnswer=true" target="_blank" rel="noopener">네이버 길찾기 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-            </nav>
+        <div class="event-summary">
+          <h3>대전 씨엘드레브<br>르자르뎅홀</h3>
+          <p class="details-time"><time datetime="2027-02-13T13:30:00+09:00">2027년 2월 13일 토요일<br>오후 1시 30분</time></p>
+        </div>
+      </section>
+
+      <section id="location" class="section directions-section" aria-labelledby="location-title">
+        <div class="directions-content">
+          <header class="location-heading">
+            <p class="location-eyebrow" lang="en">COME CELEBRATE WITH US</p>
+            <h2 id="location-title" class="section-title">오시는 길</h2>
+            <h3 class="location-venue">대전 씨엘드레브<br>르자르뎅홀</h3>
+            <div class="address-row">
+              <address id="venue-address" class="location-address">대전광역시 서구 계룡로314번길 8</address>
+              <button id="copy-address" class="button button--outline address-copy" type="button" aria-describedby="copy-address-result">주소 복사</button>
+            </div>
+            <p id="copy-address-result" class="copy-address-result" role="status" aria-live="polite"></p>
+          </header>
+
+          <figure class="venue-map-figure">
+            <a class="venue-map-link" href="venue-map-v2.png" target="_blank" rel="noopener" aria-label="약도 크게 보기">
+              <img class="venue-map" src="venue-map-v2.png" alt="월평역 2번 출구에서 식장까지 약 650m·도보 11분, 대전일보사 정류장에서 도보 약 3분을 안내하는 씨엘드레브 약도" width="1254" height="1254" loading="lazy">
+            </a>
+            <figcaption>위치 안내 약도입니다. 누르면 크게 볼 수 있어요. 실제 경로는 지도 앱에서 확인해 주세요. 도보 시간은 예상치입니다.</figcaption>
+          </figure>
+
+          <nav class="map-links" aria-label="지도 앱에서 예식장 위치 보기">
+            <a class="button button--outline" href="https://kko.kakao.com/E4FIjdEO-r" target="_blank" rel="noopener">카카오맵 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+            <a class="button button--outline" href="https://map.naver.com/p/search/%EB%8C%80%EC%A0%84%20%EC%84%9C%EA%B5%AC%20%EC%9B%94%ED%8F%89%EB%8F%99%2025-19/address/14177965.5151736,4349340.7758311,%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%84%9C%EA%B5%AC%20%EC%9B%94%ED%8F%89%EB%8F%99%2025-19,jibun?c=14.00,0,0,0,dh&amp;isCorrectAnswer=true" target="_blank" rel="noopener">네이버 지도 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+          </nav>
+
+          <div class="transport-list">
+            <section class="transport-row transport-row--shuttle" aria-labelledby="transit-shuttle-title">
+              <svg class="transport-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17V7c0-1.7 3.6-2.5 8-2.5s8 .8 8 2.5v10H4Z M4 10h16 M7 7.5h3v2H7z M14 7.5h3v2h-3z M6.5 17v2M17.5 17v2M7 14h.01M17 14h.01M5 19h14"/></svg>
+              <div><h3 id="transit-shuttle-title">셔틀버스</h3><p class="transport-route">대전역 → 씨엘드레브<br><span>매 정시 출발</span></p><p class="transport-note">탑승 장소와 자세한 운행 시간은 추후 안내드립니다.</p></div>
+            </section>
+            <section class="transport-row" aria-labelledby="transit-subway-title">
+              <svg class="transport-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5h10a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-11a2 2 0 0 1 2-2Z M5 14.5h14 M8 7h3v4H8z M13 7h3v4h-3z M8 21l2-2.5 M16 21l-2-2.5 M8 18.5h8"/></svg>
+              <div><h3 id="transit-subway-title">지하철</h3><p>대전 지하철 1호선 월평역(한국과학기술원) 2번 출구<br><span class="transport-note">식장까지 약 650m, 도보 약 11분</span></p></div>
+            </section>
+            <section class="transport-row" aria-labelledby="transit-bus-title">
+              <svg class="transport-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17V7c0-1.7 3.6-2.5 8-2.5s8 .8 8 2.5v10H4Z M4 10h16 M7 7.5h3v2H7z M14 7.5h3v2h-3z M6.5 17v2M17.5 17v2M7 14h.01M17 14h.01M5 19h14"/></svg>
+              <div><h3 id="transit-bus-title">버스</h3><p>101 · 103 · 105 · 107 · 116 · 119 · 213 · 312번, 대전일보사 정류장 하차 후 도보 3분</p></div>
+            </section>
+            <section class="transport-row" aria-labelledby="transit-car-title">
+              <svg class="transport-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 16v-4l2-1 2-5h10l2 5 2 1v4H3Z M5 11h14 M8 7h8 M4 16v2h3v-2M17 16v2h3v-2M8 6V4h8v2"/></svg>
+              <div><h3 id="transit-car-title">택시·자가용</h3><p>택시 또는 내비게이션 검색창에 ‘씨엘드레브’나 주소를 입력해 주세요.</p></div>
+            </section>
+            <section class="transport-row" aria-labelledby="transit-parking-title">
+              <svg class="transport-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 18V6h4a3 3 0 0 1 0 6h-4"/></svg>
+              <div><h3 id="transit-parking-title">주차</h3><p>주말 무료 발렛파킹을 제공합니다. 도착 후 현장 안내를 따라 주세요.</p></div>
+            </section>
           </div>
+
+          <p class="official-directions"><a href="https://www.cieldereve.com/location" target="_blank" rel="noopener">예식장 공식 교통 안내 <span aria-hidden="true">↗</span></a></p>
         </div>
       </section>
 

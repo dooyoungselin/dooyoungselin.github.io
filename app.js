@@ -6,6 +6,12 @@
   const art = $('#invitation-art');
   const cutout = $('#couple-cutout');
   const celebration = $('.firework-burst');
+  const backgroundMusic = $('#background-music');
+  const musicButton = $('#music-button');
+  const musicResult = $('#music-result');
+  const copyAddressButton = $('#copy-address');
+  const venueAddress = $('#venue-address');
+  const copyAddressResult = $('#copy-address-result');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const reviewMode = new URLSearchParams(window.location.search).get('review') === '1';
   const reviewPanel = $('#design-review');
@@ -17,6 +23,8 @@
   let introTimer = 0;
   let introReady = false;
   let hasCelebrated = false;
+  let musicIsPlaying = false;
+  let musicNoticeTimer = 0;
   let gallery = [];
   let activeIndex = 0;
   let focusedThumb = null;
@@ -38,6 +46,75 @@
   function waitAtMost(promise, ms) {
     return Promise.race([promise.catch(() => {}), new Promise((resolve) => window.setTimeout(resolve, ms))]);
   }
+
+  function hasMusicSource() {
+    return Boolean(backgroundMusic.getAttribute('src') || $('source[src]', backgroundMusic));
+  }
+
+  function isMusicAudible() {
+    return musicIsPlaying && !backgroundMusic.paused && !backgroundMusic.ended && !backgroundMusic.muted && backgroundMusic.volume > 0;
+  }
+
+  function updateMusicControl() {
+    const audible = isMusicAudible();
+    musicButton.setAttribute('aria-pressed', String(audible));
+    musicButton.setAttribute('aria-label', audible ? '배경음악 일시 정지' : hasMusicSource() ? '배경음악 재생' : '배경음악 안내');
+  }
+
+  function showMusicNotice(message) {
+    window.clearTimeout(musicNoticeTimer);
+    musicResult.textContent = message;
+    if (message) musicNoticeTimer = window.setTimeout(() => { musicResult.textContent = ''; }, 2600);
+  }
+
+  async function toggleMusic() {
+    if (!hasMusicSource()) {
+      showMusicNotice('음악을 준비하고 있어요.');
+      updateMusicControl();
+      return;
+    }
+    if (!backgroundMusic.paused && !backgroundMusic.ended && !backgroundMusic.muted && backgroundMusic.volume > 0) {
+      backgroundMusic.pause();
+      return;
+    }
+
+    backgroundMusic.muted = false;
+    if (backgroundMusic.volume === 0) backgroundMusic.volume = 0.8;
+    try {
+      await backgroundMusic.play();
+    } catch {
+      musicIsPlaying = false;
+      updateMusicControl();
+      showMusicNotice('음악을 재생하지 못했어요. 다시 눌러 주세요.');
+    }
+  }
+
+  backgroundMusic.addEventListener('playing', () => {
+    musicIsPlaying = true;
+    showMusicNotice('');
+    updateMusicControl();
+  });
+  ['pause', 'ended', 'emptied', 'waiting', 'error'].forEach((eventName) => {
+    backgroundMusic.addEventListener(eventName, () => {
+      musicIsPlaying = false;
+      updateMusicControl();
+      if (eventName === 'error') showMusicNotice('음악을 재생하지 못했어요. 다시 눌러 주세요.');
+    });
+  });
+  ['play', 'volumechange', 'loadedmetadata', 'canplay', 'seeked'].forEach((eventName) => {
+    backgroundMusic.addEventListener(eventName, updateMusicControl);
+  });
+  updateMusicControl();
+
+  copyAddressButton.addEventListener('click', async () => {
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
+      await navigator.clipboard.writeText(venueAddress.textContent.trim());
+      copyAddressResult.textContent = '주소를 복사했어요.';
+    } catch {
+      copyAddressResult.textContent = '주소를 길게 눌러 복사해 주세요.';
+    }
+  });
 
   function setVisualState(state) {
     const previousState = hero.dataset.state;
@@ -94,9 +171,7 @@
     else if (!reviewMode) startAutomaticIntro();
   });
 
-  $('#music-button').addEventListener('click', () => {
-    $('#music-result').textContent = '음악을 준비하고 있어요.';
-  });
+  musicButton.addEventListener('click', toggleMusic);
   $('#rsvp-form').addEventListener('submit', (event) => {
     event.preventDefault();
     $('#rsvp-result').textContent = '디자인 미리보기입니다. 실제 응답은 저장되지 않습니다.';

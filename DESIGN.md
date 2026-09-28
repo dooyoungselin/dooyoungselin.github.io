@@ -35,7 +35,7 @@ Use `assets/couple-original-cutout.svg`: it embeds the original Main-derived JPE
 
 Prioritize matching the head centers and foot baseline of the illustration and photograph. Cartoon anatomy cannot match every point of the photograph without distortion; keep natural proportions and use optical alignment rather than warping faces or bodies.
 
-Once images are ready, hold the drawing around 1.4 seconds and dissolve to the photographic cutout around 0.9 seconds. A brief cobalt/light-blue burst of small lines, dots and hearts may appear around the portrait edges once as the photo arrives, without covering faces. Keep all text stable. With reduced motion, show a static photograph and no particles. A failed image keeps the drawing visible. No public replay button; the music control is a small accessible icon with an honest preparation notice until audio is connected.
+Once images are ready, hold the drawing around 1.4 seconds and dissolve to the photographic cutout around 0.9 seconds. A brief cobalt/light-blue burst of small lines, dots and hearts may appear around the portrait edges once as the photo arrives, without covering faces. Keep all text stable. With reduced motion, show a static photograph and no particles. A failed image keeps the drawing visible. No public replay button. The music control is a 44px accessible button with a diagonal slash while stopped and a note while audio is actually audible. It must not autoplay or claim playback when muted, silent, paused, or missing a source. The hidden `#background-music` element intentionally has no source until an approved track is selected; wire it by adding that track's `src` or a `<source src="…">` child. With no source, activating the button only shows a brief preparation notice.
 
 ## Mobile navigation and photographs
 
@@ -43,6 +43,14 @@ Once images are ready, hold the drawing around 1.4 seconds and dissolve to the p
 - Place the scroll cue in a small separate row below the cover frame, away from its bottom line and corner hearts.
 - Show all 30 photographs in 10 album scenes with three photographs per scene and manifest reading order. Vary image widths and placement to create an asymmetrical composition. Preserve the entire original image at its natural aspect ratio: no cover fitting, clipped frames, focal-point crops, or rounded clipping. Scale the whole composition to fit small mobile screens. A landscape lead gets its own full-width row. Individual photos open the existing viewer.
 - The viewer uses the available dynamic viewport height. Its close X, counter and previous/next controls stay visible while the image fits the remaining space. Account for safe areas, short landscape screens and focus restoration.
+
+## Directions
+
+- Keep the event date, time, and hall in a short centered summary, followed by a separate `#location` scene.
+- Use the supplied hand-drawn `venue-map-v2.png` (1254×1254) at full width and its natural aspect ratio. Keep it lazy-loaded and uncropped; do not substitute map tiles. Explain that it is a location guide and ask guests to check the route in a map app.
+- Keep the venue address readable with an explicit copy control, then show equal Kakao Map and Naver Map links and uncluttered subway, bus, taxi/car, and parking rows with cobalt line icons. Treat any shuttle details confirmed by the couple as authoritative and label only details still pending.
+- Let the location scene grow past the viewport when needed. Keep 16px transit copy, clear separators, mobile wrapping, and native scroll behavior; do not force a gesture or hide overflow.
+- The address copy control reports success only after the clipboard promise resolves. On unsupported or failed copy, say `주소를 길게 눌러 복사해 주세요.` and leave focus in place.
 
 ## Applied research and boundaries
 
@@ -52,7 +60,7 @@ TypeUI Atlas/Cream are reference checks only. MengTo's video/HTML prompt-extract
 
 ## Current delivery scope
 
-The selected invitation is served from the repository root. The gallery contains 30 optimized photos with panel grids and a modal viewer. RSVP and guestbook are clearly marked input previews; Google Sheets persistence and selected audio playback remain pending. Never label a preview submit as saved. Local research and development copies remain under ignored `artifacts/`.
+The selected invitation is served from the repository root. The gallery contains 30 optimized photos with panel grids and a modal viewer. RSVP and guestbook are clearly marked input previews; Google Sheets persistence and the approved audio source remain pending. The music control is implemented but stays off and reports that music is being prepared until a source is added to `#background-music`. Never label a preview submit as saved. Local research and development copies remain under ignored `artifacts/`.
 
 ## Link sharing
 
