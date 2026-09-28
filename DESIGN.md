@@ -26,7 +26,7 @@ Font research: [Delius](https://github.com/google/fonts/tree/main/ofl/delius), [
 - Invitation column: maximum 480px; gutter 24px on phones, up to 40px on wider screens. Desktop surrounds the column with the same white background. The cover frame sits closer to the viewport edges than the body gutter.
 - Hero: one small-viewport height when content fits, flexible enough to remain readable on short screens. Group headline, portrait, names, date, and venue. No scroll lock.
 - Main reading order: couple → invitation → photographs → date/location → RSVP → guestbook.
-- Doodle frame and hearts use a consistent 2.5px stroke. Avoid repetitive dashboard cards, decorative gradients, large shadow panels, and unrelated themes.
+- The hero frame uses the user's supplied transparent PNG `invitation-frame-v1.png`. Preserve the source bytes and corner-heart shapes while fitting the surrounding lines to the viewport. Avoid repetitive dashboard cards, decorative gradients, large shadow panels, and unrelated themes.
 - Controls: one cobalt primary and one outlined secondary style; consistent 10px radius; 48px preferred target, 44px minimum. Visible focus and labels.
 
 ## Portrait and movement
@@ -53,3 +53,7 @@ TypeUI Atlas/Cream are reference checks only. MengTo's video/HTML prompt-extract
 ## Current delivery scope
 
 The selected invitation is served from the repository root. The gallery contains 30 optimized photos with panel grids and a modal viewer. RSVP and guestbook are clearly marked input previews; Google Sheets persistence and selected audio playback remain pending. Never label a preview submit as saved. Local research and development copies remain under ignored `artifacts/`.
+
+## Link sharing
+
+Use the approved dedicated 2:1 PNG `share-kakao-v1.png` (1774×887) for Open Graph and large-image social cards. It contains the illustrated couple's upper bodies, arched blue names, and the blue heart-frame style. It is a separately generated sharing illustration approved by the user, not a replacement or edit of their real photographs. Keep faces and names clear of the crop edges. Version the image filename when replacing it; Kakao may retain cached metadata for already shared URLs.

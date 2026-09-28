@@ -10,6 +10,7 @@
 ## 현재 기능
 
 - 휴대폰 화면에 맞춘 넓은 표지, 손그림에서 원본 사진 오리기로 이어지는 전환과 작은 축하 효과
+- 사용자가 제공한 PNG 테두리, 상반신 손그림과 아치형 이름을 담은 카카오톡 공유 전용 썸네일
 - Delius 영문과 고운돋움 한글, 일관된 간격·색상·입력창
 - 모바일 화면 단위로 이어지는 세로 슬라이드형 스크롤, 흰색 배경
 - 사진 전체를 원본 비율로 보여주는 10개 앨범 장면(각 3장), 크기와 위치를 달리한 배치
@@ -27,6 +28,8 @@ Google Sheets 응답 저장과 방명록 공개/관리, 음악 연결은 추후 
 - `index.html`, `style.css`, `app.js`: 화면과 동작
 - `gallery-manifest.json`, `assets/gallery/`: 최적화 사진과 썸네일
 - `assets/couple-original-cutout.svg`: 원본 Main 사진의 웹용 축소본을 그대로 포함하고 윤곽 마스크만 적용한 이미지. 인물 재생성·보정 없음
+- `invitation-frame-v1.png`: 사용자가 제공한 원본 테두리 PNG
+- `share-kakao-v1.png`: 승인된 카카오톡 공유용 1774×887 PNG
 - `AGENTS.md`, `DESIGN.md`: 구현·디자인 규칙
 - `CNAME`, `.nojekyll`: 기존 Pages 도메인/정적 배포 설정
 - `?review=1`: 글꼴 및 그림/사진 정렬 검토 화면
