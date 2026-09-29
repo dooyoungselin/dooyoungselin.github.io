@@ -25,8 +25,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Delius&family=Gowun+Dodum&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260928-lettering3">
-  <script src="app.js?v=20260928-sprinkles1" defer></script>
+  <link rel="stylesheet" href="style.css?v=20260929-album1">
+  <script src="app.js?v=20260929-album1" defer></script>
 </head>
 <body>
   <section id="design-review" class="design-review" aria-labelledby="review-title" hidden>
@@ -105,9 +105,17 @@
       </section>
 
       <section class="photo-gallery" aria-labelledby="photo-heading" aria-busy="false">
-        <h2 id="photo-heading" class="visually-hidden">함께한 순간 사진 모음</h2>
-        <p id="gallery-status" class="gallery-status" role="status" aria-live="polite">사진을 불러오지 못했어요. 새로고침해 주세요.</p>
-        <div id="gallery-items" class="gallery-scenes"></div>
+        <header class="gallery-toolbar">
+          <h2 id="photo-heading" class="gallery-title">함께한 순간</h2>
+          <nav class="gallery-controls" aria-label="사진 묶음 넘기기">
+            <span id="gallery-page" class="gallery-page" aria-live="polite" aria-atomic="true">1 / 10</span>
+            <button id="gallery-previous" class="button button--outline gallery-arrow" type="button" aria-label="이전 사진 묶음" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
+            <button id="gallery-next" class="button button--outline gallery-arrow" type="button" aria-label="다음 사진 묶음" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
+          </nav>
+        </header>
+        <p class="gallery-hint">좌우로 넘겨 보세요 · 사진을 누르면 크게 볼 수 있어요</p>
+        <p id="gallery-status" class="gallery-status" role="status" aria-live="polite">사진을 불러오고 있어요.</p>
+        <div id="gallery-items" class="gallery-scenes" role="region" aria-label="웨딩 사진 묶음"></div>
       </section>
 
       <section class="section details-section event-section" aria-labelledby="details-title">
@@ -122,8 +130,8 @@
         <div class="directions-content">
           <h2 id="location-title" class="section-title">오시는 길</h2>
           <figure class="venue-map-figure">
-            <a class="venue-map-link" href="venue-map-v3.png" target="_blank" rel="noopener" aria-label="약도 크게 보기">
-              <img class="venue-map" src="venue-map-v3.png" alt="씨엘드레브 약도: 월평역 2번 출구에서 약 650m·도보 약 11분, 대전일보사 정류장에서 도보 약 3분. 셔틀은 대전역에서 매시 정각, 씨엘드레브에서 매시 30분 출발." width="1086" height="1448" loading="lazy">
+            <a class="venue-map-link" href="venue-map-v4.png" target="_blank" rel="noopener" aria-label="약도 크게 보기">
+              <img class="venue-map" src="venue-map-v4.png" alt="씨엘드레브 약도: 월평역 2번 출구에서 약 650m·도보 약 11분, 대전일보사 정류장에서 도보 약 3분. 셔틀은 대전역에서 매시 정각, 씨엘드레브에서 매시 30분 출발." width="1086" height="1448" loading="lazy">
             </a>
             <figcaption>약도는 눌러 크게 보고, 경로는 지도 앱에서 확인해 주세요.</figcaption>
           </figure>

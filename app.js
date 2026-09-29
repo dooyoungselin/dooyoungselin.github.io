@@ -224,6 +224,9 @@
   const itemsHost = $('#gallery-items');
   const galleryStatus = $('#gallery-status');
   const gallerySection = $('.photo-gallery');
+  const galleryPage = $('#gallery-page');
+  const galleryPrevious = $('#gallery-previous');
+  const galleryNext = $('#gallery-next');
   gallerySection.setAttribute('aria-busy', 'true');
   galleryStatus.textContent = '사진을 불러오고 있어요.';
   const dialog = $('#photo-dialog');
@@ -232,6 +235,54 @@
   const dialogStatus = $('#photo-dialog-status');
   const dialogPrevious = $('#dialog-previous');
   const dialogNext = $('#dialog-next');
+  let galleryScrollFrame = 0;
+
+  function updateGalleryControls() {
+    const scenes = $$('.gallery-scene', itemsHost);
+    if (!scenes.length) {
+      galleryPage.textContent = '0 / 0';
+      galleryPrevious.disabled = true;
+      galleryNext.disabled = true;
+      return;
+    }
+    const railLeft = itemsHost.getBoundingClientRect().left;
+    let currentScene = 0;
+    let nearestOffset = Number.POSITIVE_INFINITY;
+    scenes.forEach((scene, index) => {
+      const offset = Math.abs(scene.getBoundingClientRect().left - railLeft);
+      if (offset < nearestOffset) {
+        nearestOffset = offset;
+        currentScene = index;
+      }
+    });
+    galleryPage.textContent = `${currentScene + 1} / ${scenes.length}`;
+    galleryPrevious.disabled = currentScene === 0;
+    galleryNext.disabled = currentScene === scenes.length - 1;
+  }
+
+  function scheduleGalleryControlUpdate() {
+    if (galleryScrollFrame) return;
+    galleryScrollFrame = window.requestAnimationFrame(() => {
+      galleryScrollFrame = 0;
+      updateGalleryControls();
+    });
+  }
+
+  function moveGalleryScene(direction) {
+    const scenes = $$('.gallery-scene', itemsHost);
+    if (!scenes.length) return;
+    const current = Math.max(0, Math.min(scenes.length - 1, Math.round(itemsHost.scrollLeft / itemsHost.clientWidth)));
+    const next = Math.max(0, Math.min(scenes.length - 1, current + direction));
+    itemsHost.scrollTo({
+      left: next * itemsHost.clientWidth,
+      behavior: reducedMotion.matches ? 'auto' : 'smooth',
+    });
+  }
+
+  itemsHost.addEventListener('scroll', scheduleGalleryControlUpdate, { passive: true });
+  window.addEventListener('resize', scheduleGalleryControlUpdate, { passive: true });
+  galleryPrevious.addEventListener('click', () => moveGalleryScene(-1));
+  galleryNext.addEventListener('click', () => moveGalleryScene(1));
 
   function setGalleryIndex(index) {
     if (!gallery.length) return;
@@ -304,26 +355,12 @@
         const leadPhoto = gallery[sceneLeadIndex];
         const isLandscape = Number(leadPhoto.width) > Number(leadPhoto.height);
         scene.className = `gallery-scene ${isLandscape ? 'gallery-scene--landscape' : `gallery-scene--${sceneIndex % 2 === 0 ? 'left' : 'right'}`}`;
-        scene.setAttribute('aria-labelledby', `gallery-scene-heading-${sceneIndex + 1}`);
-
-        const header = document.createElement('div');
-        header.className = 'gallery-scene-header';
-        const heading = document.createElement('h2');
-        heading.className = 'gallery-scene-title';
-        heading.id = `gallery-scene-heading-${sceneIndex + 1}`;
-        heading.textContent = '함께한 순간';
-        const count = document.createElement('p');
-        count.className = 'gallery-scene-count';
-        count.textContent = `${String(sceneIndex + 1).padStart(2, '0')}/${String(sceneCount).padStart(2, '0')}`;
-        count.setAttribute('aria-label', `사진 장면 ${sceneIndex + 1}, 전체 ${sceneCount}`);
-        header.append(heading, count);
-
+        scene.setAttribute('role', 'group');
+        scene.setAttribute('aria-roledescription', 'slide');
+        scene.setAttribute('aria-label', `사진 묶음 ${sceneIndex + 1} / ${sceneCount}`);
         const layout = document.createElement('div');
         layout.className = 'gallery-layout';
-        const hint = document.createElement('p');
-        hint.className = 'gallery-hint';
-        hint.textContent = '사진을 누르면 크게 볼 수 있어요.';
-        scene.append(header, layout, hint);
+        scene.append(layout);
         scenes[sceneIndex] = scene;
         fragment.append(scene);
       }
@@ -340,7 +377,7 @@
       const thumbWidth = fullWidth > fullHeight ? 440 : Math.round(fullWidth * 440 / fullHeight);
       image.srcset = `${item.thumb} ${thumbWidth}w, ${item.src} ${fullWidth}w`;
       image.sizes = isLead && Number(item.width) > Number(item.height)
-        ? '(max-width: 600px) calc(100vw - 32px), 400px'
+        ? '(max-width: 600px) calc(100vw - 64px), 400px'
         : isLead
           ? '(max-width: 600px) 60vw, 240px'
           : '(max-width: 600px) 40vw, 144px';
@@ -357,6 +394,7 @@
     itemsHost.replaceChildren(fragment);
     galleryStatus.hidden = true;
     gallerySection.setAttribute('aria-busy', 'false');
+    updateGalleryControls();
     setGalleryIndex(0);
   }
 
@@ -369,6 +407,7 @@
     .catch(() => {
       galleryStatus.textContent = '사진을 불러오지 못했어요. 새로고침해 주세요.';
       itemsHost.replaceChildren();
+      updateGalleryControls();
       gallerySection.setAttribute('aria-busy', 'false');
     });
 
