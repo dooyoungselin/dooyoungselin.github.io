@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#fffdfb">
   <meta name="robots" content="noindex,nofollow">
   <meta name="description" content="두영과 세린의 결혼식에 초대합니다. 2027년 2월 13일 토요일 오후 1시 30분, 대전 씨엘드레브 르자르뎅홀.">
   <meta property="og:type" content="website">
@@ -24,27 +24,27 @@
   <title>Dooyoung &amp; Selin — 청첩장</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Delius&family=Gowun+Dodum&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260928-lettering3">
-  <script src="app.js?v=20260928-sprinkles1" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Libre+Baskerville:wght@400&family=Gowun+Dodum&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20261012-gallery-square2">
+  <script src="app.js?v=20261012-gallery-static1" defer></script>
 </head>
 <body>
   <section id="design-review" class="design-review" aria-labelledby="review-title" hidden>
     <div class="review-topline"><span class="review-label">LOCAL DESIGN REVIEW</span><a href="index.html">초대장 보기</a></div>
-    <h1 id="review-title">A · 블루 드로잉</h1>
-    <p class="review-summary">원본 초대장의 푸른 선과 흰 여백을 살리고, 실제 사진과 종이 오려붙임처럼 이어지는 장면을 더한 방향입니다.</p>
+    <h1 id="review-title">B · 버건디 리본</h1>
+    <p class="review-summary">흰 종이 위에 버건디 손그림 리본을 두르고, 큰 필기체 이름과 원본 커플 드로잉을 중심에 둔 표지입니다.</p>
     <div class="type-specimen" aria-label="사용 글꼴">
-      <div><span class="specimen-label">ENGLISH DISPLAY · DELIUS</span><p lang="en">Dooyoung &amp; Selin</p></div>
-      <div><span class="specimen-label">KOREAN · GOWUN DODUM</span><p>우리의 첫날에 초대합니다</p></div>
+      <div><span class="specimen-label">NAMES · DANCING SCRIPT</span><p lang="en">Dooyoung &amp; Selin</p></div>
+      <div><span class="specimen-label">SERIF · LIBRE BASKERVILLE / KOREAN · GOWUN DODUM</span><p>2027.02.13 · 씨엘드레브 르자르뎅홀</p></div>
     </div>
     <div class="review-bottom">
       <ul class="rule-summary">
-        <li>흰 종이 · 코발트 잉크 · 짙은 남색 본문</li>
-        <li>영문 Delius, 한글과 본문 Gowun Dodum</li>
+        <li>흰 종이 · 버건디 #8b1026 리본 · 따뜻한 중성 본문</li>
+        <li>이름 Dancing Script, 날짜와 장소 Libre Baskerville, 한글 Gowun Dodum</li>
         <li>4px 간격 단위 · 24px 모바일 여백 · 버튼과 입력 44px 이상</li>
         <li>사진 전환은 선택적 모션 설정을 따르고, RSVP와 방명록은 저장하지 않는 시안</li>
       </ul>
-      <nav class="reference-links" aria-label="웹 스타일 참고"><span>웹 참고 시안</span><a href="https://bridy.cc/en/preview/limone" target="_blank" rel="noopener">코발트 손그림</a><a href="https://bridy.cc/en/preview/cornflower" target="_blank" rel="noopener">여백과 잉크 드로잉</a><a href="https://ninety4studio1.my.canva.site/ninety4-studio-6-template/invitation-flatlay" target="_blank" rel="noopener">종이 초대장 구성</a></nav>
+      <p class="review-note">위에서부터 작은 SAVE THE DATE, 두영과 세린의 이름, 손그림 커플, 날짜와 장소 순서로 읽힙니다.</p>
     </div>
     <div id="calibration-controls" class="calibration-controls" hidden aria-label="사진 정렬 검토">
       <button class="button button--outline" type="button" data-calibration="blend" aria-pressed="false">겹쳐서 정렬 보기</button>
@@ -68,7 +68,8 @@
         </div>
 
         <div class="hero-content">
-          <h1 class="save-date"><span class="visually-hidden">SAVE THE DATE</span><img src="assets/cover-title-v1.png" alt="" width="699" height="206"></h1>
+          <p class="save-date">SAVE THE DATE</p>
+          <h1 id="couple-names" class="couple-names" lang="en">Dooyoung &amp; Selin</h1>
           <button id="collage-stage" class="collage-stage" type="button" aria-label="두영과 세린의 손그림과 사진 전환" aria-pressed="false">
             <span class="illustration-layer" aria-hidden="true">
               <img id="invitation-art" src="assets/invitation.png" alt="">
@@ -85,11 +86,8 @@
               <span class="burst-particle burst-line"></span><span class="burst-particle burst-dot"></span>
             </span>
           </button>
-          <div class="hero-copy">
-            <h2 id="couple-names" class="couple-names" lang="en"><span class="visually-hidden">Dooyoung &amp; Selin</span><img src="assets/cover-names-v1.png" alt="" width="792" height="199"></h2>
-            <p class="hero-date"><time datetime="2027-02-13T13:30:00+09:00" aria-label="2027년 2월 13일 토요일 오후 1시 30분"><span class="visually-hidden">2027.02.13 · SAT · 13:30</span><img src="assets/cover-date-v1.png" alt="" width="628" height="81"></time></p>
-            <p class="hero-venue"><span class="visually-hidden">Ciel de Rêve · Le Jardin Hall</span><img src="assets/cover-venue-v1.png" alt="" width="716" height="85"></p>
-          </div>
+          <p class="hero-date"><time datetime="2027-02-13T13:30:00+09:00" aria-label="2027년 2월 13일 토요일 오후 1시 30분"><span class="date-main">2027.02.13.</span><span class="date-sub">SAT 13:30</span></time></p>
+          <p class="hero-venue" lang="en">Ciel de Rêve · Le Jardin Hall</p>
         </div>
       </div>
       <a class="scroll-cue" href="#invitation-copy"><span>아래로 스크롤</span><span aria-hidden="true">↓</span></a>
@@ -105,7 +103,8 @@
       </section>
 
       <section class="photo-gallery" aria-labelledby="photo-heading" aria-busy="false">
-        <h2 id="photo-heading" class="visually-hidden">함께한 순간 사진 모음</h2>
+        <h2 id="photo-heading" class="gallery-heading">함께한 순간</h2>
+        <p class="gallery-hint">사진을 누르면 크게 볼 수 있어요.</p>
         <p id="gallery-status" class="gallery-status" role="status" aria-live="polite">사진을 불러오지 못했어요. 새로고침해 주세요.</p>
         <div id="gallery-items" class="gallery-scenes"></div>
       </section>

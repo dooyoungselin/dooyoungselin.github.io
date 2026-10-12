@@ -232,7 +232,6 @@
   const dialogStatus = $('#photo-dialog-status');
   const dialogPrevious = $('#dialog-previous');
   const dialogNext = $('#dialog-next');
-
   function setGalleryIndex(index) {
     if (!gallery.length) return;
     activeIndex = Math.max(0, Math.min(gallery.length - 1, index));
@@ -294,43 +293,21 @@
     if (!gallery.length) throw new Error('The gallery manifest contains no usable images.');
     const fragment = document.createDocumentFragment();
     const scenes = [];
-    const sceneCount = Math.ceil(gallery.length / 3);
     gallery.forEach((item, index) => {
       const sceneIndex = Math.floor(index / 3);
-      const sceneLeadIndex = sceneIndex * 3;
       let scene = scenes[sceneIndex];
       if (!scene) {
-        scene = document.createElement('section');
-        const leadPhoto = gallery[sceneLeadIndex];
-        const isLandscape = Number(leadPhoto.width) > Number(leadPhoto.height);
-        scene.className = `gallery-scene ${isLandscape ? 'gallery-scene--landscape' : `gallery-scene--${sceneIndex % 2 === 0 ? 'left' : 'right'}`}`;
-        scene.setAttribute('aria-labelledby', `gallery-scene-heading-${sceneIndex + 1}`);
-
-        const header = document.createElement('div');
-        header.className = 'gallery-scene-header';
-        const heading = document.createElement('h2');
-        heading.className = 'gallery-scene-title';
-        heading.id = `gallery-scene-heading-${sceneIndex + 1}`;
-        heading.textContent = '함께한 순간';
-        const count = document.createElement('p');
-        count.className = 'gallery-scene-count';
-        count.textContent = `${String(sceneIndex + 1).padStart(2, '0')}/${String(sceneCount).padStart(2, '0')}`;
-        count.setAttribute('aria-label', `사진 장면 ${sceneIndex + 1}, 전체 ${sceneCount}`);
-        header.append(heading, count);
-
+        scene = document.createElement('div');
+        scene.className = 'gallery-scene';
         const layout = document.createElement('div');
         layout.className = 'gallery-layout';
-        const hint = document.createElement('p');
-        hint.className = 'gallery-hint';
-        hint.textContent = '사진을 누르면 크게 볼 수 있어요.';
-        scene.append(header, layout, hint);
+        scene.append(layout);
         scenes[sceneIndex] = scene;
         fragment.append(scene);
       }
       const layout = $('.gallery-layout', scene);
       const button = document.createElement('button');
-      const isLead = index === sceneLeadIndex;
-      button.className = `gallery-photo-button${isLead ? ' gallery-photo-button--lead' : ''}`;
+      button.className = 'gallery-photo-button';
       button.type = 'button';
       button.dataset.index = String(index);
       button.setAttribute('aria-label', `사진 ${index + 1}: ${item.alt || '웨딩 사진'} 크게 보기`);
@@ -339,11 +316,7 @@
       const fullHeight = Number(item.height) || 1600;
       const thumbWidth = fullWidth > fullHeight ? 440 : Math.round(fullWidth * 440 / fullHeight);
       image.srcset = `${item.thumb} ${thumbWidth}w, ${item.src} ${fullWidth}w`;
-      image.sizes = isLead && Number(item.width) > Number(item.height)
-        ? '(max-width: 600px) calc(100vw - 32px), 400px'
-        : isLead
-          ? '(max-width: 600px) 60vw, 240px'
-          : '(max-width: 600px) 40vw, 144px';
+      image.sizes = '(max-width: 600px) 30vw, 138px';
       image.alt = '';
       image.loading = 'lazy';
       image.decoding = 'async';

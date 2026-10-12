@@ -1,34 +1,31 @@
-# Dooyoung & Selin · Blue Drawing
+# Dooyoung & Selin · Burgundy Ribbon
 
 ## Direction
 
-A personal paper invitation: white space, cobalt ink, small imperfect hearts, and the couple as the visual focus. Cute through rounded letterforms and drawing details; calm through consistent grouping. The user selected Blue Drawing and supplied handwritten PNG crops for the cover lettering. Preserve their original aspect ratios and the supplied reference's character.
+The user selected a new Burgundy Ribbon reference on 2026-10-12, superseding the earlier Blue Drawing cover. White paper, fine burgundy ribbon lines, a large bow, flowing script names, and black couple line art define the cover. Preserve the original photographs and the existing drawing-to-photo interaction.
 
 ## Typography
 
-| Role | Family | Size / leading | Treatment |
-| --- | --- | --- | --- |
-| English cover title, names, date, venue | Supplied transparent PNG crops | Responsive, natural aspect ratio | Keep matching visually hidden text for accessible reading |
-| Other English text | Delius | Per component role | Regular, natural rounded strokes; no faux bold or italic |
-| Korean section title | Gowun Dodum | 24–28px / 1.45 | Regular; create hierarchy with space and scale |
-| Invitation prose | Gowun Dodum | 16px / 1.85 | Centered short paragraphs, keep Korean words together |
-| Form control / button | Gowun Dodum | 16px / 1.5 | Same treatment in RSVP and guestbook |
-| Supporting detail | Gowun Dodum | 13–14px / 1.6 | Readable contrast; never compress important addresses/dates |
+| Role | Family | Treatment |
+| --- | --- | --- |
+| English couple names | Dancing Script | Semibold (600) natural handwriting, above the couple; match the stronger strokes of the supplied reference |
+| Cover title, date, venue | Libre Baskerville | Regular (400) sturdy serif; tracked uppercase title and lining numerals for date/time |
+| Other English text | Libre Baskerville | Regular |
+| Korean titles and prose | Gowun Dodum | Regular, centered prose, keep words together |
+| Form control / button | Gowun Dodum | 16px / 1.5 |
+| Supporting detail | Gowun Dodum | 13–14px / 1.6 |
 
-Outside the cover crops, Delius remains for English and Gowun Dodum for Korean reading and input. Use `font-synthesis: none`. System sans fallbacks keep text visible if fonts fail.
-
-Font research: [Delius](https://github.com/google/fonts/tree/main/ofl/delius) and [Gowun Dodum](https://github.com/google/fonts/tree/main/ofl/gowundodum) remain the selected font pair for text outside the cover crops.
+Use `font-synthesis: none` and readable fallback fonts. Cover lettering is live text.
 
 ## Color and composition
 
-- Paper and all page/section surroundings `#ffffff`; cobalt `#11199f`; reading ink `#253052`; secondary text `#626779`. The user requested removing grey/tinted background bands.
-- Use semantic CSS variables for reusable colors, font roles, spaces, radii, and durations.
-- Spacing steps: 4, 8, 12, 16, 24, 32, 48, 64, 80px. Related information is close; sections have larger breathing room.
-- Invitation column: maximum 480px; gutter 24px on phones, up to 40px on wider screens. Desktop surrounds the column with the same white background. The cover frame sits closer to the viewport edges than the body gutter.
-- Hero: budget one stable small-viewport height, including safe-area-aware outer top and bottom whitespace of about 24px. Keep the headline clear of the music control; let the portrait shrink at its natural aspect ratio so names, date, venue, and cue fit when possible. Very short screens may grow to keep reading clear. No scroll lock.
+- White paper; burgundy `#8b1026` accent; warm charcoal reading text and muted supporting text.
+- Retain semantic CSS variables, spacing steps, 480px invitation column, and white desktop surroundings.
+- Hero reading order: ribbon bow → SAVE THE DATE → names → couple → date and venue → scroll cue.
+- Use the user-supplied transparent `assets/ribbon-frame.png` unchanged, at its original 1054:1492 aspect ratio. Size cover typography and portrait within this frame; never stretch or crop the ribbon. It replaces the approximated SVG ribbon.
+- Preserve generous inner space around the lettering and full couple silhouette. Short screens may grow naturally to keep text readable. No scroll lock.
 - Main reading order: couple → invitation → photographs → date/location → RSVP → guestbook.
-- The hero frame uses the user's supplied transparent PNG `invitation-frame-v1.png`. Preserve the source bytes and corner-heart shapes while fitting the surrounding lines to the viewport. Avoid repetitive dashboard cards, decorative gradients, large shadow panels, and unrelated themes.
-- Controls: one cobalt primary and one outlined secondary style; consistent 10px radius; 48px preferred target, 44px minimum. Visible focus and labels.
+- Controls use a burgundy primary and outlined secondary style, consistent 10px radius, 48px preferred target and 44px minimum. Preserve visible focus and labels.
 
 ## Portrait and movement
 
@@ -36,20 +33,21 @@ Use the user-provided transparent portrait at `assets/couple-user-cutout-v2.png`
 
 Prioritize matching the head centers and foot baseline of the illustration and photograph. Cartoon anatomy cannot match every point of the photograph without distortion; keep natural proportions and use optical alignment rather than warping faces or bodies. Shift the portrait stage 8% right to balance the dress's visual weight, while keeping the sprinkles centered on the hero. The photo remains at a uniform 1 CSS scale with zero image offset; keep the scale isotropic.
 
-Once images are ready, hold the drawing around 1.4 seconds and dissolve to the photographic cutout around 0.9 seconds. Clicking or tapping the portrait, or focusing it and pressing Enter or Space, toggles between illustration and photo; manual input cancels any pending automatic transition. A brief cobalt/light-blue burst of small lines, dots and hearts may appear around the portrait's outer sides and bottom corners on each actual switch, without covering faces. Keep all text stable. With reduced motion, start with a static photograph and no particles; explicit toggles remain available and switch instantly without particles. A failed image keeps the drawing visible. The portrait itself is the public toggle, with no separate replay button. The music control is a 44px accessible button with a diagonal slash while stopped and a note while audio is actually audible. It must not autoplay or claim playback when muted, silent, paused, or missing a source. The hidden `#background-music` element intentionally has no source until an approved track is selected; wire it by adding that track's `src` or a `<source src="…">` child. With no source, activating the button only shows a brief preparation notice.
+Once images are ready, hold the drawing around 1.4 seconds and dissolve to the photographic cutout around 0.9 seconds. Clicking or tapping the portrait, or focusing it and pressing Enter or Space, toggles between illustration and photo; manual input cancels any pending automatic transition. A brief burgundy/rose burst of small lines, dots and hearts may appear around the portrait's outer sides and bottom corners on each actual switch, without covering faces. Keep all text stable. With reduced motion, start with a static photograph and no particles; explicit toggles remain available and switch instantly without particles. A failed image keeps the drawing visible. The portrait itself is the public toggle, with no separate replay button. The music control is a 44px accessible button with a diagonal slash while stopped and a note while audio is actually audible. It must not autoplay or claim playback when muted, silent, paused, or missing a source. The hidden `#background-music` element intentionally has no source until an approved track is selected; wire it by adding that track's `src` or a `<source src="…">` child. With no source, activating the button only shows a brief preparation notice.
 
 ## Mobile navigation and photographs
 
-- Mobile content follows natural height with about 32px above and below each reading section; gallery scenes use 24px. Keep photo groups together, and use native proximity snapping at scene starts so users can move through them with ordinary scroll momentum. Do not intercept wheel/touch gestures; suspend snapping during text/select input and modal viewing. Reduced-motion preferences disable snapping.
-- Place the scroll cue in a small separate row below the cover frame, away from its bottom line and corner hearts.
-- Show all 30 photographs in 10 album scenes with three photographs per scene and manifest reading order. Vary image widths and placement to create an asymmetrical composition. Preserve the entire original image at its natural aspect ratio: no cover fitting, clipped frames, focal-point crops, or rounded clipping. Scale the whole composition to fit small mobile screens. A landscape lead gets its own full-width row. Individual photos open the existing viewer.
+- Mobile content follows natural height with about 32px above and below each reading section. The gallery is one continuous grid; do not snap at individual rows or intercept wheel/touch gestures.
+- Place the scroll cue in a small separate row below the cover frame.
+- Show all 30 photographs in manifest order in a three-column grid (10 rows), with one gallery heading and one hint. The user selected square thumbnails on 2026-10-12, superseding the earlier uncropped-thumbnail rule. Keep equal column widths and compact gaps; use top-aligned CSS object-fit: cover to keep faces visible in square thumbnails, without modifying source images. Tapping a thumbnail opens the entire original photo with object-fit: contain in the existing viewer.
+- Keep the gallery static while scrolling; do not stack, rotate, or unfold photographs. Preserve the three-column layout and tap-to-enlarge viewer.
 - The viewer uses the available dynamic viewport height. Its close X, counter and previous/next controls stay visible while the image fits the remaining space. Account for safe areas, short landscape screens and focus restoration.
 
 ## Directions
 
 - Keep the event date, time, and hall in a short centered summary, followed by a separate `#location` map scene.
 - Use the supplied hand-drawn `venue-map-v3.png` (1086×1448) at its natural aspect ratio. Keep it lazy-loaded and uncropped; do not substitute map tiles. On phones, fit the title, full image, short caption, and equal Kakao Map and Naver Map links in one small-viewport scene.
-- Put the venue address and explicit copy control in the following `#transport` scene, with content near its top and a small-viewport minimum height. Keep the shuttle times visible: Daejeon Station departures are on the hour and venue departures are at half past; boarding place and first/last departures are pending. Show subway, bus, taxi/car, and parking as native collapsed disclosures with cobalt line icons. Keep 16px detail copy and allow very short screens or expanded details to grow naturally.
+- Put the venue address and explicit copy control in the following `#transport` scene, with content near its top and a small-viewport minimum height. Keep the shuttle times visible: Daejeon Station departures are on the hour and venue departures are at half past; boarding place and first/last departures are pending. Show subway, bus, taxi/car, and parking as native collapsed disclosures with burgundy line icons. Keep 16px detail copy and allow very short screens or expanded details to grow naturally.
 - Explain that the map is a location guide and ask guests to confirm the route in a map app. Preserve native scrolling and never hide overflow.
 - The address copy control reports success only after the clipboard promise resolves. On unsupported or failed copy, say `주소를 길게 눌러 복사해 주세요.` and leave focus in place.
 
@@ -61,8 +59,8 @@ TypeUI Atlas/Cream are reference checks only. MengTo's video/HTML prompt-extract
 
 ## Current delivery scope
 
-The selected invitation is served from the repository root. The gallery contains 30 optimized photos with panel grids and a modal viewer. RSVP and guestbook are clearly marked input previews; Google Sheets persistence and the approved audio source remain pending. The music control is implemented but stays off and reports that music is being prepared until a source is added to `#background-music`. Never label a preview submit as saved. Local research and development copies remain under ignored `artifacts/`.
+The selected invitation is served from the repository root. The gallery contains 30 optimized photos in a continuous three-column grid and a modal viewer. RSVP and guestbook are clearly marked input previews; Google Sheets persistence and the approved audio source remain pending. The music control is implemented but stays off and reports that music is being prepared until a source is added to `#background-music`. Never label a preview submit as saved. Local research and development copies remain under ignored `artifacts/`.
 
 ## Link sharing
 
-Use the approved dedicated 2:1 PNG `share-kakao-v1.png` (1774×887) for Open Graph and large-image social cards. It contains the illustrated couple's upper bodies, arched blue names, and the blue heart-frame style. It is a separately generated sharing illustration approved by the user, not a replacement or edit of their real photographs. Keep faces and names clear of the crop edges. Version the image filename when replacing it; Kakao may retain cached metadata for already shared URLs.
+Use the approved dedicated 2:1 PNG `share-kakao-v1.png` (1774×887) for Open Graph and large-image social cards. It currently retains the earlier blue illustration and heart-frame style; the cover restyle does not replace this separately approved sharing asset. It is a separately generated sharing illustration approved by the user, not a replacement or edit of their real photographs. Keep faces and names clear of the crop edges. Version the image filename when replacing it; Kakao may retain cached metadata for already shared URLs.
