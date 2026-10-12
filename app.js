@@ -194,10 +194,6 @@
   });
 
   musicButton.addEventListener('click', toggleMusic);
-  $('#rsvp-form').addEventListener('submit', (event) => {
-    event.preventDefault();
-    $('#rsvp-result').textContent = '디자인 미리보기입니다. 실제 응답은 저장되지 않습니다.';
-  });
   $('#guestbook-form').addEventListener('submit', (event) => {
     event.preventDefault();
     $('#guestbook-result').textContent = '디자인 미리보기입니다. 입력 내용은 전송되거나 저장되지 않습니다.';
@@ -333,7 +329,7 @@
     setGalleryIndex(0);
   }
 
-  fetch('gallery-manifest.json')
+  fetch('gallery-manifest.json?v=20261012-selected27')
     .then((response) => {
       if (!response.ok) throw new Error(`Gallery manifest returned ${response.status}`);
       return response.json();

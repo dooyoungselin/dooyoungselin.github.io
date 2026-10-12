@@ -24,7 +24,7 @@ Use `font-synthesis: none` and readable fallback fonts. Cover lettering is live 
 - Hero reading order: ribbon bow → SAVE THE DATE → names → couple → date and venue → scroll cue.
 - Use the user-supplied transparent `assets/ribbon-frame.png` unchanged, at its original 1054:1492 aspect ratio. Size cover typography and portrait within this frame; never stretch or crop the ribbon. It replaces the approximated SVG ribbon.
 - Preserve generous inner space around the lettering and full couple silhouette. Short screens may grow naturally to keep text readable. No scroll lock.
-- Main reading order: couple → invitation → photographs → date/location → RSVP → guestbook.
+- Main reading order: couple → invitation → photographs → date/location → guestbook.
 - Controls use a burgundy primary and outlined secondary style, consistent 10px radius, 48px preferred target and 44px minimum. Preserve visible focus and labels.
 
 ## Portrait and movement
@@ -39,7 +39,7 @@ Once images are ready, hold the drawing around 1.4 seconds and dissolve to the p
 
 - Mobile content follows natural height with about 32px above and below each reading section. The gallery is one continuous grid; do not snap at individual rows or intercept wheel/touch gestures.
 - Place the scroll cue in a small separate row below the cover frame.
-- Show all 30 photographs in manifest order in a three-column grid (10 rows), with one gallery heading and one hint. The user selected square thumbnails on 2026-10-12, superseding the earlier uncropped-thumbnail rule. Keep equal column widths and compact gaps; use top-aligned CSS object-fit: cover to keep faces visible in square thumbnails, without modifying source images. Tapping a thumbnail opens the entire original photo with object-fit: contain in the existing viewer.
+- Show all 27 photographs in manifest order in a three-column grid (9 rows), with one gallery heading and one hint. The user selected square thumbnails on 2026-10-12, superseding the earlier uncropped-thumbnail rule. Keep equal column widths and compact gaps; use top-aligned CSS object-fit: cover to keep faces visible in square thumbnails, without modifying source images. Tapping a thumbnail opens the entire original photo with object-fit: contain in the existing viewer.
 - Keep the gallery static while scrolling; do not stack, rotate, or unfold photographs. Preserve the three-column layout and tap-to-enlarge viewer.
 - The viewer uses the available dynamic viewport height. Its close X, counter and previous/next controls stay visible while the image fits the remaining space. Account for safe areas, short landscape screens and focus restoration.
 
@@ -59,7 +59,7 @@ TypeUI Atlas/Cream are reference checks only. MengTo's video/HTML prompt-extract
 
 ## Current delivery scope
 
-The selected invitation is served from the repository root. The gallery contains 30 optimized photos in a continuous three-column grid and a modal viewer. RSVP and guestbook are clearly marked input previews; Google Sheets persistence and the approved audio source remain pending. The music control is implemented but stays off and reports that music is being prepared until a source is added to `#background-music`. Never label a preview submit as saved. Local research and development copies remain under ignored `artifacts/`.
+The selected invitation is served from the repository root. The gallery contains 27 optimized photos in a continuous three-column grid and a modal viewer. RSVP has been removed at the user’s request. The guestbook is clearly marked as an input preview; Google Sheets persistence and the approved audio source remain pending. The music control is implemented but stays off and reports that music is being prepared until a source is added to `#background-music`. Never label a preview submit as saved. Local research and development copies remain under ignored `artifacts/`.
 
 ## Link sharing
 
