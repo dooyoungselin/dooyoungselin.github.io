@@ -46,7 +46,7 @@ Once images are ready, hold the drawing around 1.4 seconds and dissolve to the p
 ## Directions
 
 - Keep the event date, time, and hall in a short centered summary, followed by a separate `#location` map scene.
-- Use the supplied hand-drawn `venue-map-v3.png` (1086×1448) at its natural aspect ratio. Keep it lazy-loaded and uncropped; do not substitute map tiles. On phones, fit the title, full image, short caption, and equal Kakao Map and Naver Map links in one small-viewport scene.
+- Use the supplied hand-drawn `venue-map-v4.png` (1086×1448) at its natural aspect ratio. Keep it lazy-loaded and uncropped; do not substitute map tiles. On phones, fit the title, full image, short caption, and equal Kakao Map and Naver Map links in one small-viewport scene.
 - Put the venue address and explicit copy control in the following `#transport` scene, with content near its top and a small-viewport minimum height. Keep the shuttle times visible: Daejeon Station departures are on the hour and venue departures are at half past; boarding place and first/last departures are pending. Show subway, bus, taxi/car, and parking as native collapsed disclosures with burgundy line icons. Keep 16px detail copy and allow very short screens or expanded details to grow naturally.
 - Explain that the map is a location guide and ask guests to confirm the route in a map app. Preserve native scrolling and never hide overflow.
 - The address copy control reports success only after the clipboard promise resolves. On unsupported or failed copy, say `주소를 길게 눌러 복사해 주세요.` and leave focus in place.
