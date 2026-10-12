@@ -317,3 +317,20 @@ body.dialog-open { overflow: hidden; }
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
   .firework-burst { display: none; }
 }
+
+/* The film strip emerges from behind the canister at the same visible height. */
+.film-section { padding: 24px 16px 40px; }
+.film-camera-row { display: flex; align-items: center; isolation: isolate; }
+.film-camera { position: relative; z-index: 1; width: 144px; height: auto; flex: 0 0 144px; margin-right: -32px; pointer-events: none; }
+.film-strip { display: flex; min-width: 0; flex: 1; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; background: #191a18; cursor: grab; }
+.film-photo { position: relative; flex: 0 0 auto; margin: 0; padding: 25px 3px 29px; border: 0; border-radius: 0; background: #191a18; color: #d7c8a2; cursor: inherit; }
+.film-photo::before, .film-photo::after { content: ''; position: absolute; left: 0; right: 0; height: 8px; background: repeating-linear-gradient(90deg, transparent 0 7px, #fff 7px 18px, transparent 18px 26px); }
+.film-photo::before { top: 7px; }
+.film-photo::after { bottom: 7px; }
+.film-photo img { display: block; width: auto; max-width: none; height: 126px; object-fit: contain; user-select: none; -webkit-user-drag: none; }
+.film-photo span { position: absolute; bottom: 16px; left: 10px; font: 8px/1 monospace; letter-spacing: 2px; }
+.film-photo:focus-visible { outline-offset: -3px; }
+@media (min-width: 600px) { .film-section { padding-inline: 24px; } .film-camera { width: 160px; flex-basis: 160px; } .film-photo img { height: 144px; } }
+
+.film-strip::-webkit-scrollbar { display: none; }
+.film-strip.is-dragging { cursor: grabbing; user-select: none; }

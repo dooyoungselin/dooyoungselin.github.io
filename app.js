@@ -27,6 +27,7 @@
   let musicIsPlaying = false;
   let musicNoticeTimer = 0;
   let gallery = [];
+  let activePhotos = [];
   let activeIndex = 0;
   let focusedThumb = null;
   let dialogScroll = { x: 0, y: 0 };
@@ -229,18 +230,18 @@
   const dialogPrevious = $('#dialog-previous');
   const dialogNext = $('#dialog-next');
   function setGalleryIndex(index) {
-    if (!gallery.length) return;
-    activeIndex = Math.max(0, Math.min(gallery.length - 1, index));
+    if (!activePhotos.length) return;
+    activeIndex = Math.max(0, Math.min(activePhotos.length - 1, index));
     $$('.gallery-photo-button', itemsHost).forEach((button, i) => {
-      if (i === activeIndex) button.setAttribute('aria-current', 'true');
+      if (activePhotos === gallery && i === activeIndex) button.setAttribute('aria-current', 'true');
       else button.removeAttribute('aria-current');
     });
     dialogPrevious.disabled = activeIndex === 0;
-    dialogNext.disabled = activeIndex === gallery.length - 1;
+    dialogNext.disabled = activeIndex === activePhotos.length - 1;
   }
 
   function prefetchNeighbor(index) {
-    const item = gallery[index];
+    const item = activePhotos[index];
     if (!item || prefetched.has(item.src)) return;
     prefetched.add(item.src);
     const image = new Image();
@@ -250,13 +251,13 @@
   }
 
   function showDialogImage(index) {
-    if (!gallery.length) return;
-    activeIndex = Math.max(0, Math.min(gallery.length - 1, index));
-    const item = gallery[activeIndex];
+    if (!activePhotos.length) return;
+    activeIndex = Math.max(0, Math.min(activePhotos.length - 1, index));
+    const item = activePhotos[activeIndex];
     dialogImage.alt = item.alt || `웨딩 사진 ${activeIndex + 1}`;
     dialogImage.src = item.src;
     dialogImage.setAttribute('fetchpriority', 'high');
-    dialogCount.textContent = `${activeIndex + 1} / ${gallery.length}`;
+    dialogCount.textContent = `${activeIndex + 1} / ${activePhotos.length}`;
     dialogStatus.textContent = '';
     dialogImage.onerror = () => { dialogStatus.textContent = '사진을 불러오지 못했어요.'; };
     setGalleryIndex(activeIndex);
@@ -264,8 +265,9 @@
     prefetchNeighbor(activeIndex - 1);
   }
 
-  function openPhoto(index, trigger) {
-    if (!gallery.length || !dialog.showModal) return;
+  function openPhoto(index, trigger, photos = gallery) {
+    activePhotos = photos;
+    if (!activePhotos.length || !dialog.showModal) return;
     focusedThumb = trigger || document.activeElement;
     dialogScroll = { x: window.scrollX, y: window.scrollY };
     showDialogImage(index);
@@ -326,7 +328,7 @@
     itemsHost.replaceChildren(fragment);
     galleryStatus.hidden = true;
     gallerySection.setAttribute('aria-busy', 'false');
-    setGalleryIndex(0);
+
   }
 
   fetch('gallery-manifest.json?v=20261012-selected27')
@@ -340,6 +342,49 @@
       itemsHost.replaceChildren();
       gallerySection.setAttribute('aria-busy', 'false');
     });
+
+  const filmStrip = $('#film-strip');
+  const filmButtons = $$('.film-photo', filmStrip);
+  const filmPhotos = filmButtons.map((button) => ({ src: button.dataset.full, alt: $('img', button).alt }));
+  filmButtons.forEach((button, index) => button.addEventListener('click', () => openPhoto(index, button, filmPhotos)));
+  // Touch uses native scrolling; mouse dragging moves the same strip freely.
+  let filmDrag = null;
+  let filmDragged = false;
+  filmStrip.addEventListener('pointerdown', (event) => {
+    filmDragged = false;
+    if (event.pointerType !== 'mouse' || event.button !== 0) return;
+    filmDrag = { x: event.clientX, left: filmStrip.scrollLeft };
+  });
+  filmStrip.addEventListener('pointermove', (event) => {
+    if (!filmDrag) return;
+    const delta = event.clientX - filmDrag.x;
+    if (!filmDragged && Math.abs(delta) < 5) return;
+    filmDragged = true;
+    filmStrip.setPointerCapture(event.pointerId);
+    filmStrip.classList.add('is-dragging');
+    filmStrip.scrollLeft = filmDrag.left - delta;
+  });
+  function endFilmDrag() {
+    filmDrag = null;
+    filmStrip.classList.remove('is-dragging');
+  }
+  filmStrip.addEventListener('pointerup', endFilmDrag);
+  filmStrip.addEventListener('pointercancel', endFilmDrag);
+  filmStrip.addEventListener('lostpointercapture', endFilmDrag);
+  filmStrip.addEventListener('pointerleave', () => { if (!filmDragged) endFilmDrag(); });
+  filmStrip.addEventListener('dragstart', (event) => event.preventDefault());
+  filmStrip.addEventListener('click', (event) => {
+    if (filmDragged && event.detail !== 0) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }, true);
+  filmStrip.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      event.preventDefault();
+      filmStrip.scrollBy({ left: (event.key === 'ArrowRight' ? 1 : -1) * 160, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+    }
+  });
 
   $('#dialog-previous').addEventListener('click', () => moveDialog(-1));
   $('#dialog-next').addEventListener('click', () => moveDialog(1));

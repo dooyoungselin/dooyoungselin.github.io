@@ -25,8 +25,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Libre+Baskerville:wght@400&family=Gowun+Dodum&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261012-no-rsvp">
-  <script src="app.js?v=20261012-selected27" defer></script>
+  <link rel="stylesheet" href="style.css?v=20261012-film-fit">
+  <script src="app.js?v=20261012-film-fit" defer></script>
 </head>
 <body>
   <section id="design-review" class="design-review" aria-labelledby="review-title" hidden>
@@ -107,6 +107,24 @@
         <p class="gallery-hint">사진을 누르면 크게 볼 수 있어요.</p>
         <p id="gallery-status" class="gallery-status" role="status" aria-live="polite">사진을 불러오지 못했어요. 새로고침해 주세요.</p>
         <div id="gallery-items" class="gallery-scenes"></div>
+      </section>
+
+      <section class="film-section" aria-labelledby="film-heading">
+        <h2 id="film-heading" class="gallery-heading">필름에 담은 순간</h2>
+        <p class="gallery-hint">옆으로 넘겨 보고, 사진을 눌러 크게 보세요.</p>
+        <div class="film-camera-row">
+          <img class="film-camera" src="assets/film-canister.png" width="900" height="1748" alt="">
+          <div id="film-strip" class="film-strip" tabindex="0" role="region" aria-label="필름 사진 8장, 좌우로 넘겨 보세요">
+              <button class="film-photo" type="button" data-full="assets/film/f1.webp" aria-label="필름 사진 1 크게 보기"><img src="assets/film/f1-thumb.webp" width="1600" height="1600" loading="lazy" alt="두영과 세린의 필름 사진 1"><span aria-hidden="true">01 ▸</span></button>
+              <button class="film-photo" type="button" data-full="assets/film/f2.webp" aria-label="필름 사진 2 크게 보기"><img src="assets/film/f2-thumb.webp" width="1280" height="1600" loading="lazy" alt="두영과 세린의 필름 사진 2"><span aria-hidden="true">02 ▸</span></button>
+              <button class="film-photo" type="button" data-full="assets/film/f3.webp" aria-label="필름 사진 3 크게 보기"><img src="assets/film/f3-thumb.webp" width="1280" height="1600" loading="lazy" alt="두영과 세린의 필름 사진 3"><span aria-hidden="true">03 ▸</span></button>
+              <button class="film-photo" type="button" data-full="assets/film/f4.webp" aria-label="필름 사진 4 크게 보기"><img src="assets/film/f4-thumb.webp" width="1280" height="1600" loading="lazy" alt="두영과 세린의 필름 사진 4"><span aria-hidden="true">04 ▸</span></button>
+              <button class="film-photo" type="button" data-full="assets/film/f5.webp" aria-label="필름 사진 5 크게 보기"><img src="assets/film/f5-thumb.webp" width="1280" height="1600" loading="lazy" alt="두영과 세린의 필름 사진 5"><span aria-hidden="true">05 ▸</span></button>
+              <button class="film-photo" type="button" data-full="assets/film/f6.webp" aria-label="필름 사진 6 크게 보기"><img src="assets/film/f6-thumb.webp" width="1280" height="1600" loading="lazy" alt="두영과 세린의 필름 사진 6"><span aria-hidden="true">06 ▸</span></button>
+              <button class="film-photo" type="button" data-full="assets/film/f7.webp" aria-label="필름 사진 7 크게 보기"><img src="assets/film/f7-thumb.webp" width="1600" height="1600" loading="lazy" alt="두영과 세린의 필름 사진 7"><span aria-hidden="true">07 ▸</span></button>
+              <button class="film-photo" type="button" data-full="assets/film/f8.webp" aria-label="필름 사진 8 크게 보기"><img src="assets/film/f8-thumb.webp" width="1600" height="1600" loading="lazy" alt="두영과 세린의 필름 사진 8"><span aria-hidden="true">08 ▸</span></button>
+          </div>
+        </div>
       </section>
 
       <section class="section details-section event-section" aria-labelledby="details-title">

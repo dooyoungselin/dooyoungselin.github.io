@@ -64,3 +64,7 @@ The selected invitation is served from the repository root. The gallery contains
 ## Link sharing
 
 Use the approved dedicated 2:1 PNG `share-kakao-v1.png` (1774×887) for Open Graph and large-image social cards. It currently retains the earlier blue illustration and heart-frame style; the cover restyle does not replace this separately approved sharing asset. It is a separately generated sharing illustration approved by the user, not a replacement or edit of their real photographs. Keep faces and names clear of the crop edges. Version the image filename when replacing it; Kakao may retain cached metadata for already shared URLs.
+
+## Film album
+
+Below the main gallery, display f1–f8 in order as a horizontal film strip with the supplied ribbon-wrapped film canister PNG on the left. Preserve full photo proportions inside black frames with sprocket holes. Keep only 6px between photographs, sizing each frame to its original aspect ratio at a shared height. Use native touch swiping, free mouse dragging and keyboard arrows, without navigation buttons, snapping or autoplay. Tapping opens the shared viewer within the eight-photo film album. Use assets/film-canister.png unchanged from the user’s supplied PNG, preserving its transparent background and proportions. Match the canister’s visible height to the film strip and overlap the strip behind its right edge so the photos appear to emerge from it.
