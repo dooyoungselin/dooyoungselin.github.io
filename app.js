@@ -1,9 +1,19 @@
 (() => {
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+  function weddingDayLabel(now = new Date()) {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
+    }).formatToParts(now);
+    const year = Number(parts.find((part) => part.type === 'year').value);
+    const month = Number(parts.find((part) => part.type === 'month').value);
+    const day = Number(parts.find((part) => part.type === 'day').value);
+    const days = (Date.UTC(2027, 1, 13) - Date.UTC(year, month - 1, day)) / 86400000;
+    return days === 0 ? 'D-day' : days > 0 ? `D-${days}` : `D+${Math.abs(days)}`;
+  }
+
   const hero = $('.hero');
   const stage = $('#collage-stage');
-  const art = $('#invitation-art');
   const cutout = $('#couple-cutout');
   const celebration = $('.firework-burst');
   const backgroundMusic = $('#background-music');
@@ -20,10 +30,7 @@
   calibrationControls.hidden = !reviewMode;
   document.body.classList.toggle('review-mode', reviewMode);
 
-  let introTimer = 0;
   let celebrationTimer = 0;
-  let introReady = false;
-  let introManuallyControlled = false;
   let musicIsPlaying = false;
   let musicNoticeTimer = 0;
   let gallery = [];
@@ -32,21 +39,60 @@
   let focusedThumb = null;
   let dialogScroll = { x: 0, y: 0 };
   const prefetched = new Set();
+  let revealObserver = null;
+  const weddingDday = $('#wedding-dday');
+  const weddingDdayValue = $('#wedding-dday-value');
 
-  function imageLoaded(image) {
-    return image.complete && image.naturalWidth > 0;
-  }
+  const scrollRevealTargets = $$('.copy-body, .featured-photo, .wedding-calendar, .wedding-family, .photo-gallery > .gallery-heading, .photo-gallery > .gallery-hint, .film-section > .gallery-heading, .event-summary, .directions-content > .section-title, .guestbook-heading, .closing-heart');
 
-  function waitForImage(image) {
-    if (image.complete) return Promise.resolve();
-    return new Promise((resolve) => {
-      image.addEventListener('load', resolve, { once: true });
-      image.addEventListener('error', resolve, { once: true });
+  function setupScrollReveal() {
+    if (reducedMotion.matches || typeof window.IntersectionObserver !== 'function') return;
+    let observer = null;
+    try {
+      observer = new window.IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer?.unobserve(entry.target);
+        });
+      }, { threshold: .08, rootMargin: '0px 0px -24px 0px' });
+      scrollRevealTargets.forEach((target) => observer.observe(target));
+    } catch {
+      observer?.disconnect();
+      return;
+    }
+    revealObserver = observer;
+    scrollRevealTargets.forEach((target) => target.classList.add('scroll-reveal'));
+    document.addEventListener('focusin', (event) => {
+      const target = event.target.closest?.('.scroll-reveal');
+      if (!target) return;
+      target.classList.add('is-visible');
+      revealObserver?.unobserve(target);
     });
   }
 
-  function waitAtMost(promise, ms) {
-    return Promise.race([promise.catch(() => {}), new Promise((resolve) => window.setTimeout(resolve, ms))]);
+  function revealAllScrollTargets() {
+    revealObserver?.disconnect();
+    revealObserver = null;
+    $$('.scroll-reveal').forEach((target) => target.classList.add('is-visible'));
+  }
+
+  setupScrollReveal();
+
+  function updateWeddingDday() {
+    if (!weddingDday || !weddingDdayValue) return;
+    weddingDdayValue.textContent = weddingDayLabel();
+    weddingDday.hidden = false;
+  }
+
+  updateWeddingDday();
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') updateWeddingDday();
+  });
+  window.setInterval(updateWeddingDday, 60000);
+
+  function imageLoaded(image) {
+    return image.complete && image.naturalWidth > 0;
   }
 
   function hasMusicSource() {
@@ -145,52 +191,18 @@
     celebrationTimer = window.setTimeout(clearCelebration, 1050);
   }
 
-  function stopIntro() {
-    window.clearTimeout(introTimer);
-    introTimer = 0;
-  }
-
-  function startAutomaticIntro() {
-    if (reviewMode || introManuallyControlled || !introReady || !imageLoaded(art) || !imageLoaded(cutout)) return;
-    if (reducedMotion.matches) {
-      setVisualState('photo');
-      return;
-    }
-    if (hero.dataset.autoStarted === 'true') return;
-    hero.dataset.autoStarted = 'true';
-    introTimer = window.setTimeout(() => setVisualState('photo'), 1400);
-  }
-
   setVisualState('illustration');
-  cutout.addEventListener('load', () => {
-    startAutomaticIntro();
-  }, { once: true });
   cutout.addEventListener('error', () => {
     cutout.hidden = true;
     setVisualState('illustration');
   }, { once: true });
-  art.addEventListener('load', startAutomaticIntro, { once: true });
-
-  const fontsReady = (document.fonts && document.fonts.load)
-    ? Promise.all([document.fonts.load('16px "Gowun Dodum"'), document.fonts.load('34px "Delius"')])
-    : Promise.resolve();
-  const imagesReady = Promise.all([waitForImage(art), waitForImage(cutout)]);
-  waitAtMost(Promise.all([fontsReady, imagesReady]), 1800).then(() => {
-    introReady = true;
-    startAutomaticIntro();
-  });
 
   reducedMotion.addEventListener?.('change', () => {
+    if (reducedMotion.matches) revealAllScrollTargets();
     clearCelebration();
-    stopIntro();
-    if (introManuallyControlled) return;
-    if (reducedMotion.matches && imageLoaded(cutout)) setVisualState('photo');
-    else if (!reviewMode) startAutomaticIntro();
   });
 
   stage.addEventListener('click', () => {
-    introManuallyControlled = true;
-    stopIntro();
     setVisualState(hero.dataset.state === 'photo' ? 'illustration' : 'photo');
   });
 
@@ -208,7 +220,6 @@
           const on = stage.classList.toggle('is-calibrating');
           button.setAttribute('aria-pressed', String(on));
         } else {
-          stopIntro();
           stage.classList.remove('is-calibrating');
           $('[data-calibration="blend"]').setAttribute('aria-pressed', 'false');
           setVisualState(mode === 'photo' ? 'photo' : 'illustration');
@@ -220,6 +231,7 @@
   // Keep the manifest's order while grouping photos into ten three-image scenes.
   const itemsHost = $('#gallery-items');
   const galleryStatus = $('#gallery-status');
+  const galleryMoreButton = $('#gallery-more');
   const gallerySection = $('.photo-gallery');
   gallerySection.setAttribute('aria-busy', 'true');
   galleryStatus.textContent = '사진을 불러오고 있어요.';
@@ -229,6 +241,15 @@
   const dialogStatus = $('#photo-dialog-status');
   const dialogPrevious = $('#dialog-previous');
   const dialogNext = $('#dialog-next');
+  galleryMoreButton.addEventListener('click', () => {
+    const hiddenScenes = $$('.gallery-scene', itemsHost).filter((scene) => scene.hidden);
+    if (!hiddenScenes.length) return;
+    const firstRevealed = $('.gallery-photo-button', hiddenScenes[0]);
+    hiddenScenes.forEach((scene) => { scene.hidden = false; });
+    galleryMoreButton.setAttribute('aria-expanded', 'true');
+    galleryMoreButton.hidden = true;
+    firstRevealed?.focus({ preventScroll: true });
+  });
   function setGalleryIndex(index) {
     if (!activePhotos.length) return;
     activeIndex = Math.max(0, Math.min(activePhotos.length - 1, index));
@@ -297,6 +318,7 @@
       if (!scene) {
         scene = document.createElement('div');
         scene.className = 'gallery-scene';
+        scene.hidden = sceneIndex >= 3;
         const layout = document.createElement('div');
         layout.className = 'gallery-layout';
         scene.append(layout);
@@ -326,12 +348,13 @@
       layout.append(button);
     });
     itemsHost.replaceChildren(fragment);
+    galleryMoreButton.hidden = gallery.length <= 9;
     galleryStatus.hidden = true;
     gallerySection.setAttribute('aria-busy', 'false');
 
   }
 
-  fetch('gallery-manifest.json?v=20261012-selected27')
+  fetch('gallery-manifest.json?v=20261016-retouched-order')
     .then((response) => {
       if (!response.ok) throw new Error(`Gallery manifest returned ${response.status}`);
       return response.json();
@@ -340,6 +363,7 @@
     .catch(() => {
       galleryStatus.textContent = '사진을 불러오지 못했어요. 새로고침해 주세요.';
       itemsHost.replaceChildren();
+      galleryMoreButton.hidden = true;
       gallerySection.setAttribute('aria-busy', 'false');
     });
 

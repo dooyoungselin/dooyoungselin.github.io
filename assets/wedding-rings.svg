@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="48" viewBox="0 0 120 100" fill="none">
+  <defs>
+    <mask id="front-band" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="100">
+      <rect width="120" height="100" fill="#fff"/>
+      <g transform="rotate(-28 46 58)" fill="#000">
+        <ellipse cx="46" cy="58" rx="29" ry="22"/>
+        <ellipse cx="46" cy="58" rx="23" ry="16" fill="#fff"/>
+      </g>
+    </mask>
+  </defs>
+  <g stroke="#8b1026" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="rotate(28 75 43)" mask="url(#front-band)">
+      <ellipse cx="75" cy="43" rx="29" ry="22"/>
+      <ellipse cx="75" cy="43" rx="23" ry="16"/>
+    </g>
+    <g transform="rotate(-28 46 58)">
+      <ellipse cx="46" cy="58" rx="29" ry="22"/>
+      <ellipse cx="46" cy="58" rx="23" ry="16"/>
+    </g>
+    <path d="m29 30 6-7h8l6 7-10 11-10-11Z" fill="#fff"/>
+    <path d="m29 30 20 0M35 23l4 18m8-11-8 11"/>
+  </g>
+</svg>
