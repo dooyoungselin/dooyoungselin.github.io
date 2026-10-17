@@ -222,9 +222,27 @@ body.dialog-open { overflow: hidden; }
 .address-copy { min-width: 88px; min-height: 44px; padding: 0 var(--space-2); flex: 0 0 auto; font-size: 14px; }
 .copy-address-result { min-height: 1.6em; margin: var(--space-1) 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; text-align: center; }
 .copy-address-result:empty { display: none; }
-.venue-map-figure { width: 100%; margin: var(--space-4) 0 0; }
-.venue-map-link { display: block; }
-.venue-map { display: block; width: 100%; height: auto; }
+.map-shuttle { width: 100%; max-width: 360px; margin: 0 auto var(--space-4); padding: var(--space-2) 0; border-block: 1px solid var(--line); }
+.map-shuttle-heading { margin-bottom: var(--space-1); display: flex; justify-content: center; align-items: center; gap: var(--space-2); color: var(--accent); }
+.map-shuttle-icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.map-shuttle-heading h3 { margin: 0; font-size: 15px; font-weight: 400; line-height: 1.5; }
+.map-shuttle-routes { display: grid; gap: 2px; }
+.map-shuttle-route { margin: 0; display: flex; justify-content: space-between; gap: var(--space-2); color: var(--ink); font-size: 14px; line-height: 1.55; white-space: nowrap; }
+.map-shuttle-route strong { color: var(--accent); font-weight: 400; flex: 0 0 auto; }
+.map-shuttle-note { margin: 2px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; text-align: center; }
+.venue-map-figure { width: 100%; margin: 0; display: flex; flex-direction: column; align-items: center; }
+.venue-map-link { width: 100%; max-width: 360px; display: block; }
+.venue-map { display: block; width: 100%; max-width: 360px; height: auto; }
+.map-roads rect { fill: var(--accent-soft); stroke: #e7dddb; stroke-width: 1; }
+.map-road-labels { fill: var(--muted); font-family: "Gowun Dodum", sans-serif; font-size: 15px; text-anchor: middle; }
+.map-road-label--vertical { font-size: 13px; }
+.map-station, .map-neighbor, .map-venue { fill: var(--paper); stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.map-station circle, .map-stop circle { fill: var(--paper); }
+.map-station .map-callout { fill: none; stroke-width: 1.1; }
+.map-station .map-callout-dot { fill: var(--accent); stroke: none; }
+.map-station text, .map-neighbor text, .map-venue text { fill: var(--ink); stroke: none; font-family: "Gowun Dodum", sans-serif; font-size: 15px; font-weight: 400; }
+.map-station .map-distance, .map-stop .map-distance { fill: var(--muted); font-size: 14px; }
+.map-venue circle { fill: var(--accent); }
 .venue-map-figure figcaption { margin-top: var(--space-2); color: var(--muted); font-size: 13px; line-height: 1.6; text-align: center; }
 .map-links { width: 100%; display: flex; gap: var(--space-3); margin-top: var(--space-5); }
 .map-links .button { width: calc((100% - var(--space-3)) / 2); min-width: 0; min-height: 48px; padding: 0 var(--space-2); flex: 1 1 0; font-size: 16px; }
@@ -308,15 +326,12 @@ body.dialog-open { overflow: hidden; }
   .invitation-copy { justify-content: flex-start; padding: 72px 24px 8px; }
   .section { padding-top: var(--space-6); padding-bottom: var(--space-6); }
   .event-section { display: flex; flex-direction: column; justify-content: flex-start; }
-  .directions-section { height: 100svh; min-height: 100svh; padding: 24px 16px; display: flex; }
-  .directions-content { min-height: 0; display: flex; flex: 1 1 auto; flex-direction: column; }
-  .location-heading { flex: 0 0 auto; }
+  .directions-section { min-height: 0; padding: 24px 16px; display: block; }
+  .directions-section > .directions-content { min-height: 0; display: block; }
   .directions-content > .section-title { margin-bottom: var(--space-3); }
-  .venue-map-figure { min-height: 0; margin: 0; display: flex; flex: 1 1 auto; flex-direction: column; align-items: center; justify-content: center; }
-  .venue-map-link { position: relative; width: 100%; min-height: 0; display: block; flex: 1 1 0; }
-  .venue-map { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-  .venue-map-figure figcaption { flex: 0 0 auto; margin-top: var(--space-2); font-size: 13px; line-height: 1.4; }
-  .map-links { flex: 0 0 auto; margin-top: var(--space-3); }
+  .map-shuttle { margin-bottom: var(--space-3); }
+  .venue-map-figure figcaption { max-width: 100%; margin-top: var(--space-2); font-size: 13px; line-height: 1.5; }
+  .map-links { margin-top: var(--space-3); }
   .transport-section { min-height: 100svh; padding-block: var(--space-5); }
   .transport-section > .section-title { margin-bottom: var(--space-2); font-size: 24px; line-height: 1.5; }
   .transport-section .location-heading { margin-bottom: var(--space-2); }
