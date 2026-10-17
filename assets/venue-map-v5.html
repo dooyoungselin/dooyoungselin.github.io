@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>씨엘드레브 주변 위치 약도</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: light; background: #fff; font-family: "Gowun Dodum", sans-serif; }
+    * { box-sizing: border-box; }
+    html, body { min-width: 0; min-height: 100%; margin: 0; background: #fff; color: #332b2b; }
+    body { min-height: 100svh; padding: 16px; display: grid; place-items: center; }
+    main { width: min(100%, 440px); }
+    svg { display: block; width: 100%; height: auto; }
+    .map-roads rect { fill: #f7edef; stroke: #e7dddb; stroke-width: 1; }
+    .map-road-labels { fill: #766d6b; font-size: 15px; text-anchor: middle; }
+    .map-road-label--vertical { font-size: 13px; }
+    .map-station, .map-neighbor, .map-venue { fill: #fff; stroke: #8b1026; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .map-station circle, .map-stop circle { fill: #fff; }
+    .map-station .map-callout { fill: none; stroke-width: 1.1; }
+    .map-station .map-callout-dot { fill: #8b1026; stroke: none; }
+    .map-station text, .map-neighbor text, .map-venue text { fill: #332b2b; stroke: none; font-size: 15px; font-weight: 400; }
+    .map-station .map-distance, .map-stop .map-distance { fill: #766d6b; font-size: 14px; }
+    .map-venue circle { fill: #8b1026; }
+  </style>
+</head>
+<body>
+  <main>
+    <svg viewBox="0 40 320 350" role="img" aria-labelledby="venue-map-title venue-map-description">
+      <title id="venue-map-title">씨엘드레브 주변 위치 약도</title>
+      <desc id="venue-map-description">한밭대로, 월평로, 계룡로와 월평중로의 상대적인 위치를 나타낸 안내도입니다. 한밭대로와 월평중로가 만나는 곳에 월평역 2번 출구가 있으며, 계룡로 서쪽에는 대전일보사 정류장, 동쪽에는 대전일보사가 있습니다. 씨엘드레브 르자르뎅홀은 계룡로 남쪽에 있습니다. 월평역 2번 출구에서 약 650미터, 도보 약 11분이며 대전일보사 정류장에서 도보 약 3분입니다. 길을 따라가는 경로는 표시하지 않았습니다.</desc>
+      <g class="map-roads" aria-hidden="true">
+        <rect x="12" y="74" width="296" height="28" rx="5"/>
+        <rect x="12" y="174" width="296" height="28" rx="5"/>
+        <rect x="12" y="274" width="296" height="28" rx="5"/>
+        <rect x="230" y="74" width="28" height="208" rx="5"/>
+      </g>
+      <g class="map-road-labels" aria-hidden="true">
+        <text x="105" y="93">한밭대로</text>
+        <text x="112" y="193">월평로</text>
+        <text x="139" y="293">계룡로</text>
+        <text class="map-road-label--vertical" transform="translate(244 239) rotate(-90)">월평중로</text>
+      </g>
+      <g class="map-station" aria-hidden="true">
+        <path class="map-callout" d="M237 97 205 116"/>
+        <circle class="map-callout-dot" cx="203" cy="116" r="1.5"/>
+        <circle cx="244" cy="88" r="11"/>
+        <path d="M240 84h8v8h-8zM240 89h8M242 95l1-3M246 95l1-3"/>
+        <text x="198" y="132" text-anchor="end">월평역 2번 출구</text>
+        <text class="map-distance" x="198" y="152" text-anchor="end">약 650m · 도보 약 11분</text>
+      </g>
+      <g class="map-neighbor map-stop" aria-hidden="true">
+        <text x="16" y="250">대전일보사 정류장</text>
+        <text class="map-distance" x="16" y="268">도보 약 3분</text>
+        <circle cx="48" cy="288" r="11"/>
+        <path d="M43 290v-5c0-1 2-1.5 5-1.5s5 .5 5 1.5v5h-10zM43 287h10M45 292v1M51 292v1"/>
+      </g>
+      <g class="map-neighbor map-building" aria-hidden="true">
+        <text x="305" y="328" text-anchor="end">대전일보사</text>
+        <path d="M276 281v-13l11-7 11 7v13h-22zM281 281v-8h5v8M290 269h4v4h-4z"/>
+      </g>
+      <g class="map-venue" aria-hidden="true">
+        <path d="M160 309c-8 0-13 6-13 13 0 10 13 23 13 23s13-13 13-23c0-7-5-13-13-13z"/>
+        <circle cx="160" cy="322" r="4"/>
+        <text x="160" y="363" text-anchor="middle">씨엘드레브</text>
+        <text x="160" y="382" text-anchor="middle">르자르뎅홀</text>
+      </g>
+    </svg>
+  </main>
+</body>
+</html>
